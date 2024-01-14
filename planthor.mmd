@@ -1,0 +1,22 @@
+flowchart LR
+  direction LR
+  subgraph PLANTHOR
+    subgraph UI
+        Planthor_frontend
+    end
+    subgraph IDP
+        direction LR
+        Oauth --> user_db(Postgresql)
+    end
+    UI -- Verify --> IDP
+    subgraph BE
+      direction LR 
+      Planthor_backend --> planthor_be_db(NoSQL)
+    end
+    direction LR
+    UI --> BE
+    IDP -- Login --> BE
+  end
+  
+  USER --> PLANTHOR
+  
