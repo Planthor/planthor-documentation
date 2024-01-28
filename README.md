@@ -36,3 +36,19 @@ flowchart LR
   USER --> PLANTHOR 
   
 ```
+
+## Authorization Code Flow with Proof Key for Code Exchange (PKCE)
+```mermaid
+sequenceDiagram
+    User->>Frontend (Client): Initiate login
+    Frontend (Client)->>Frontend (Client): Generate Code Verifier and Code Challenge
+    Frontend (Client)->>Planthor Identity Server: Authorization Code Request + Code Challenge
+    Planthor Identity Server-->>User: Redirect to the login page (login/authorization prompt)
+    User-->>Planthor Identity Server: Authenticate and Consent
+    Planthor Identity Server-->>Frontend (Client): Authorization code
+    Frontend (Client)->>Planthor Identity Server: Token request + Code Verifier to /oauth/token
+    Planthor Identity Server->>Planthor Identity Server: Validate Code Verifier and Challenge
+    Planthor Identity Server->>Frontend (Client): Access token and ID token
+    Frontend (Client)->>Planthor Resource Server: Access protected resource with Access token
+    Planthor Resource Server-->>Frontend (Client): Protected resource
+```
