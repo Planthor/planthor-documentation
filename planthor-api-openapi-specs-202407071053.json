@@ -1,0 +1,850 @@
+{
+    "x-generator": "NSwag v14.0.3.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))",
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Planthor Web API",
+        "description": "A robust and scalable .NET Web API playing as a main resource server for Planthor",
+        "version": "v0.0.1"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:5008"
+        }
+    ],
+    "paths": {
+        "/Members": {
+            "post": {
+                "tags": [
+                    "Members"
+                ],
+                "summary": "Creates a new member.",
+                "description": "The request body should contain a valid CreateMemberCommand object.",
+                "operationId": "Members_Create",
+                "requestBody": {
+                    "x-name": "command",
+                    "description": "The command containing member creation details.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateMemberCommand"
+                            }
+                        }
+                    },
+                    "required": true,
+                    "x-position": 1
+                },
+                "responses": {
+                    "200": {
+                        "description": "Returns the newly created member's ID.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "guid"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "If the command validation fails.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Members"
+                ],
+                "summary": "Gets all members.",
+                "operationId": "Members_ReadAll",
+                "responses": {
+                    "200": {
+                        "description": "Returns a  object containing member details.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/MemberDto"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/Members/{id}": {
+            "put": {
+                "tags": [
+                    "Members"
+                ],
+                "summary": "Updates an existing member.",
+                "description": "The request body should contain a valid UpdateMemberCommand object.",
+                "operationId": "Members_Update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the member to update.",
+                        "schema": {
+                            "type": "string",
+                            "format": "guid"
+                        },
+                        "x-position": 1
+                    }
+                ],
+                "requestBody": {
+                    "x-name": "command",
+                    "description": "The command containing member update details.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateMemberCommand"
+                            }
+                        }
+                    },
+                    "required": true,
+                    "x-position": 2
+                },
+                "responses": {
+                    "204": {
+                        "description": "If the member is updated successfully."
+                    },
+                    "400": {
+                        "description": "If the request body is null or command validation fails.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "If the member with the specified ID is not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Members"
+                ],
+                "summary": "Gets the details of a member.",
+                "operationId": "Members_Read",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the member to retrieve.",
+                        "schema": {
+                            "type": "string",
+                            "format": "guid"
+                        },
+                        "x-position": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns a  object containing member details.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MemberDto"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "If query validation fails.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "If the member with the specified ID is not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/Members/{memberId}/PersonalGoals": {
+            "post": {
+                "tags": [
+                    "PersonalGoals"
+                ],
+                "summary": "Create a new personal goal",
+                "description": "The request body should contain a valid CreateGoalCommand object.",
+                "operationId": "PersonalGoals_Create",
+                "parameters": [
+                    {
+                        "name": "memberId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the member to create goal.",
+                        "schema": {
+                            "type": "string",
+                            "format": "guid"
+                        },
+                        "x-position": 1
+                    }
+                ],
+                "requestBody": {
+                    "x-name": "command",
+                    "description": "The command containing goal creation details.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateGoalCommand"
+                            }
+                        }
+                    },
+                    "required": true,
+                    "x-position": 2
+                },
+                "responses": {
+                    "200": {
+                        "description": "Returns the newly created personal goal's ID.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "guid"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "If the command validation fails.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "PersonalGoals"
+                ],
+                "summary": "Gets the all personal goals of a member.",
+                "operationId": "PersonalGoals_ReadAll",
+                "parameters": [
+                    {
+                        "name": "memberId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the member that owns goals.",
+                        "schema": {
+                            "type": "string",
+                            "format": "guid"
+                        },
+                        "x-position": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PersonalGoalDto"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "PersonalGoals"
+                ],
+                "summary": "NOT IMPLEMENTED YET.\nPreserved for updated custom Personal Goals Ordering, bulk goal updates.",
+                "operationId": "PersonalGoals_Patch",
+                "parameters": [
+                    {
+                        "name": "memberId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "guid"
+                        },
+                        "x-position": 1
+                    }
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Not yet implemented."
+                    }
+                }
+            }
+        },
+        "/Members/{memberId}/PersonalGoals/{goalId}": {
+            "put": {
+                "tags": [
+                    "PersonalGoals"
+                ],
+                "summary": "Updates an existing personal goal.",
+                "description": "The request body should contain a valid UpdateGoalCommand object.",
+                "operationId": "PersonalGoals_Update",
+                "parameters": [
+                    {
+                        "name": "memberId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the member that owns the goal.",
+                        "schema": {
+                            "type": "string",
+                            "format": "guid"
+                        },
+                        "x-position": 1
+                    },
+                    {
+                        "name": "goalId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the goal to update.",
+                        "schema": {
+                            "type": "string",
+                            "format": "guid"
+                        },
+                        "x-position": 2
+                    }
+                ],
+                "requestBody": {
+                    "x-name": "command",
+                    "description": "The command containing goal update details.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateGoalCommand"
+                            }
+                        }
+                    },
+                    "required": true,
+                    "x-position": 3
+                },
+                "responses": {
+                    "204": {
+                        "description": "If the member is updated successfully."
+                    },
+                    "400": {
+                        "description": "If the request body is null or command validation fails.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "If the member with the specified ID is not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "PersonalGoals"
+                ],
+                "summary": "Gets the details of a personal goal.",
+                "operationId": "PersonalGoals_Read",
+                "parameters": [
+                    {
+                        "name": "memberId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the member that owns goals.",
+                        "schema": {
+                            "type": "string",
+                            "format": "guid"
+                        },
+                        "x-position": 1
+                    },
+                    {
+                        "name": "goalId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The ID of the personal goal to retrieve.",
+                        "schema": {
+                            "type": "string",
+                            "format": "guid"
+                        },
+                        "x-position": 2
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns a  object containing goal details.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PersonalGoalDto"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "If query validation fails.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "If the member with the specified ID is not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/Tribes": {
+            "post": {
+                "tags": [
+                    "Tribes"
+                ],
+                "summary": "Creates a new tribe.",
+                "operationId": "Tribes_Create",
+                "requestBody": {
+                    "x-name": "command",
+                    "description": "The command to create a new tribe.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateTribeCommand"
+                            }
+                        }
+                    },
+                    "required": true,
+                    "x-position": 1
+                },
+                "responses": {
+                    "200": {
+                        "description": "A task that represents the asynchronous operation.\nThe task result contains the ActionResult of Guid.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "guid"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/Tribes/{id}": {
+            "get": {
+                "tags": [
+                    "Tribes"
+                ],
+                "summary": "Reads the details of a tribe.",
+                "operationId": "Tribes_Read",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The identifier of the tribe.",
+                        "schema": {
+                            "type": "string",
+                            "format": "guid"
+                        },
+                        "x-position": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A task that represents the asynchronous operation.\nThe task result contains the ActionResult of TribeDto.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TribeDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Tribes"
+                ],
+                "summary": "Updates a tribe based on the provided information.",
+                "operationId": "Tribes_Update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the tribe to update.",
+                        "schema": {
+                            "type": "string",
+                            "format": "guid"
+                        },
+                        "x-position": 1
+                    }
+                ],
+                "requestBody": {
+                    "x-name": "command",
+                    "description": "An object containing the update details for the tribe. (See UpdateTribeCommand class for details)",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateTribeCommand"
+                            }
+                        }
+                    },
+                    "required": true,
+                    "x-position": 2
+                },
+                "responses": {
+                    "200": {
+                        "description": "An empty `204 No Content` response if successful, otherwise an appropriate error response.",
+                        "content": {
+                            "application/octet-stream": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Tribes"
+                ],
+                "summary": "Delete a tribe based on identifier.",
+                "operationId": "Tribes_Delete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The unique identifier of the tribe to update.",
+                        "schema": {
+                            "type": "string",
+                            "format": "guid"
+                        },
+                        "x-position": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "- A NoContent (204) response if the deletion is successful.\n- An InternalServerError (500) response if an error occurs during deletion.\n            ",
+                        "content": {
+                            "application/octet-stream": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ProblemDetails": {
+                "type": "object",
+                "additionalProperties": {
+                    "nullable": true
+                },
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "title": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "status": {
+                        "type": "integer",
+                        "format": "int32",
+                        "nullable": true
+                    },
+                    "detail": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "instance": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
+            },
+            "CreateMemberCommand": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "identifyName": {
+                        "type": "string"
+                    },
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "middleName": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "pathAvatar": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
+            },
+            "UpdateMemberCommand": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "middleName": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "pathAvatar": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
+            },
+            "MemberDto": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "guid"
+                    },
+                    "identifyName": {
+                        "type": "string"
+                    },
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "middleName": {
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "phoneNumber": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "pathAvatar": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateGoalCommand": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "memberId": {
+                        "type": "string",
+                        "format": "guid"
+                    },
+                    "unit": {
+                        "type": "string"
+                    },
+                    "target": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "current": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "fromDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "toDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "periodType": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UpdateGoalCommand": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "unit": {
+                        "type": "string"
+                    },
+                    "target": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "current": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "fromDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "toDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "periodType": {
+                        "type": "string"
+                    }
+                }
+            },
+            "PersonalGoalDto": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "goalId": {
+                        "type": "string",
+                        "format": "guid"
+                    },
+                    "unit": {
+                        "type": "string"
+                    },
+                    "target": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "current": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "fromDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "toDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "periodType": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateTribeCommand": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
+            },
+            "TribeDto": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "guid"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
+            },
+            "UpdateTribeCommand": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
+            }
+        }
+    }
+}
