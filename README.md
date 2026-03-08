@@ -21,7 +21,7 @@ flowchart LR
     end
     subgraph IDP
         direction LR
-        Oauth --> user_db(Postgresql)
+        Keycloak --> user_db(Postgresql)
     end
     UI -- Verify --> IDP
     subgraph BE
@@ -42,13 +42,31 @@ flowchart LR
 sequenceDiagram
     User->>Frontend (Client): Initiate login
     Frontend (Client)->>Frontend (Client): Generate Code Verifier and Code Challenge
-    Frontend (Client)->>Planthor Identity Server: Authorization Code Request + Code Challenge
-    Planthor Identity Server-->>User: Redirect to the login page (login/authorization prompt)
-    User-->>Planthor Identity Server: Authenticate and Consent
-    Planthor Identity Server-->>Frontend (Client): Authorization code
-    Frontend (Client)->>Planthor Identity Server: Token request + Code Verifier to /oauth/token
-    Planthor Identity Server->>Planthor Identity Server: Validate Code Verifier and Challenge
-    Planthor Identity Server->>Frontend (Client): Access token and ID token
+    Frontend (Client)->>Keycloak (IDP): Authorization Code Request + Code Challenge
+    Keycloak (IDP)-->>User: Redirect to the Keycloak login page
+    User-->>Keycloak (IDP): Authenticate and Consent
+    Keycloak (IDP)-->>Frontend (Client): Authorization code
+    Frontend (Client)->>Keycloak (IDP): Token request + Code Verifier to /oauth/token
+    Keycloak (IDP)->>Keycloak (IDP): Validate Code Verifier and Challenge
+    Keycloak (IDP)->>Frontend (Client): Access token and ID token
     Frontend (Client)->>Planthor Resource Server: Access protected resource with Access token
     Planthor Resource Server-->>Frontend (Client): Protected resource
 ```
+
+## Keycloak IDP
+[Keycloak](https://www.keycloak.org/) is an open-source Identity and Access Management (IAM) solution used as the Planthor IDP. It replaces the previous open-library OAuth implementation, providing a production-ready, feature-rich identity layer.
+
+**Key features used in Planthor:**
+- OAuth 2.0 and OpenID Connect (OIDC) support
+- Authorization Code Flow with PKCE for secure frontend authentication
+- User federation backed by PostgreSQL
+- Role-based access control (RBAC) for API resource protection
+- Built-in admin console for user and client management
+
+**Keycloak realm configuration:**
+- Realm: `planthor`
+- Client: `planthor-frontend` (public client, PKCE enabled)
+- Client: `planthor-backend` (confidential client, for service-to-service calls)
+- User storage: PostgreSQL (`user_db`)
+
+Refer to the [Keycloak documentation](https://www.keycloak.org/documentation) for setup and configuration details.

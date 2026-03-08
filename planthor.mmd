@@ -6,7 +6,7 @@ flowchart LR
     end
     subgraph IDP
         direction LR
-        Oauth --> user_db(Postgresql)
+        Keycloak --> user_db(Postgresql)
     end
     UI -- Verify --> IDP
     subgraph BE
