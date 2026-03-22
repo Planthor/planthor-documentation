@@ -25,7 +25,7 @@ Trọng tâm của Planthor là bốn định hướng nền tảng:
 
 ## Cộng đồng
 
-Planthor không chỉ đơn thuần là một ứng dụng; đó là một công cụ dành cho **cộng đồng D2D**. By providing practical solutions for goal tracking, chúng tôi giúp các vận động viên duy trì sự tập trung vào hành trình của mình và kết nối với những người khác có cùng niềm đam mê phát triển không ngừng.
+Planthor không chỉ đơn thuần là một ứng dụng; đó là một công cụ dành cho **cộng đồng D2D**. Bằng cách cung cấp các giải pháp thực tế cho việc theo dõi mục tiêu, chúng tôi giúp các vận động viên duy trì sự tập trung vào hành trình của mình và kết nối với những người khác có cùng niềm đam mê phát triển không ngừng.
 
 ---
 *Keep moving forward.*
