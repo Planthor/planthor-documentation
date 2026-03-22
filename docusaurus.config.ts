@@ -130,6 +130,20 @@ const config: Config = {
         ],
       },
     ],
+    function webpackWarningSuppressorPlugin() {
+      return {
+        name: 'webpack-warning-suppressor',
+        configureWebpack() {
+          return {
+            ignoreWarnings: [
+              {
+                module: /vscode-languageserver-types/,
+              },
+            ],
+          };
+        },
+      };
+    },
   ],
 
   // Even if you don't use internationalization, you can use this field to set
