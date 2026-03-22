@@ -6,6 +6,49 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Planthor',
+  headTags: [
+    // JSON-LD: Organization
+    {
+      tagName: 'script',
+      attributes: { type: 'application/ld+json' },
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Planthor",
+        "url": "https://planthor.github.io/planthor-documentation",
+        "logo": "https://planthor.github.io/planthor-documentation/img/planthor-logo.png",
+        "sameAs": [
+          "https://github.com/planthor",
+          "https://x.com/planthor",
+          "https://discordapp.com/invite/planthor"
+        ]
+      }),
+    },
+    // JSON-LD: SoftwareApplication
+    {
+      tagName: 'script',
+      attributes: { type: 'application/ld+json' },
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Planthor",
+        "alternateName": "Planthor Goal Tracker",
+        "description": "Planthor is an open-source goal and objectives tracking application for athletes in the Dragging to Dream (D2D) community.",
+        "url": "https://planthor.github.io/planthor-documentation",
+        "applicationCategory": "HealthApplication",
+        "operatingSystem": "Web",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "creator": {
+          "@type": "Organization",
+          "name": "Planthor"
+        }
+      }),
+    },
+  ],
   tagline: 'Planthor is an open-source goal/objectives tracking application designed to support the journey of the "Dragging to Dream" (D2D) community.',
   favicon: 'img/favicon-32x32.png',
 
@@ -121,6 +164,12 @@ const config: Config = {
             'https://github.com/Planthor/planthor-documentation/tree/main/',
         },
         blog: false,
+        sitemap: {
+          changefreq: 'weekly',
+          priority: 0.5,
+          ignorePatterns: ['/planthor-documentation/tags/**'],
+          filename: 'sitemap.xml',
+        },
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -134,10 +183,17 @@ const config: Config = {
       serverUrlDark: "https://www.plantuml.com/plantuml/svg/",
     },
     // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
+    image: 'img/planthor-logo.png',
     colorMode: {
       respectPrefersColorScheme: true,
     },
+    metadata: [
+      { name: 'keywords', content: 'Planthor, goal tracker, objective tracking, D2D, Dragging to Dream, open source, athletic goals, running plan tracker' },
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:site', content: '@planthor' },
+      { property: 'og:type', content: 'website' },
+      { property: 'og:site_name', content: 'Planthor' },
+    ],
     navbar: {
       title: 'Planthor',
       logo: {
@@ -152,6 +208,7 @@ const config: Config = {
           label: 'Documentation',
         },
         {to: '/about', label: 'About', position: 'left'},
+        {to: '/goal-tracker', label: 'Goal Tracker', position: 'left'},
         {
           type: 'localeDropdown',
           position: 'right',

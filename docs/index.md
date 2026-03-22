@@ -1,7 +1,9 @@
 ---
-title: Introduction
+title: Planthor Documentation – Goal Tracker for the D2D Community
 sidebar_label: Home
 sidebar_position: 1
+description: Official Planthor documentation. Learn how to use the Planthor goal tracker to manage running plans, sync Strava, and track objectives for the Dragging to Dream (D2D) community.
+keywords: [Planthor, goal tracker, D2D, Dragging to Dream, running plan, objective tracking, open source]
 ---
 
 # Introduction
