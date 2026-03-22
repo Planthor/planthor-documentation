@@ -1,7 +1,7 @@
 ---
 title: Chiến lược Git
 sidebar_label: Chiến lược Git
-sidebar_position: 11
+sidebar_position: 12
 ---
 
 # Sơ đồ

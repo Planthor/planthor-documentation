@@ -1,7 +1,7 @@
 ---
 title: Git Strategy
 sidebar_label: Git Strategy
-sidebar_position: 11
+sidebar_position: 12
 ---
 
 # Diagram
