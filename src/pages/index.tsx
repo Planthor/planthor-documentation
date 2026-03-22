@@ -2,6 +2,7 @@ import type {ReactNode} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
 import Heading from '@theme/Heading';
@@ -14,9 +15,9 @@ function HomepageHeader() {
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className={clsx('container', styles.heroContainer)}>
         <div className={styles.heroContent}>
-          <img 
-            src="/img/planthor-logo.png" 
-            alt="Planthor Logo" 
+          <img
+            src={useBaseUrl('img/planthor-logo.png')}
+            alt="Planthor Logo"
             className={styles.heroLogo}
           />
           <Heading as="h1" className={clsx('hero__title', styles.heroTitle)}>

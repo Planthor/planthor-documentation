@@ -7,7 +7,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'Planthor',
   tagline: 'Planthor is an open-source goal/objectives tracking application designed to support the journey of the "Dragging to Dream" (D2D) community.',
-  favicon: '/img/favicon-32x32.png',
+  favicon: 'img/favicon-32x32.png',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -47,7 +47,7 @@ const config: Config = {
     [
       '@docusaurus/plugin-pwa',
       {
-        debug: true,
+        debug: process.env.NODE_ENV !== 'production',
         offlineModeActivationStrategies: [
           'appInstalled',
           'standalone',
@@ -57,12 +57,12 @@ const config: Config = {
           {
             tagName: 'link',
             rel: 'icon',
-            href: '/img/planthor-logo.png',
+            href: 'img/planthor-logo.png',
           },
           {
             tagName: 'link',
             rel: 'manifest',
-            href: '/manifest.json',
+            href: 'manifest.json',
           },
           {
             tagName: 'meta',
@@ -82,7 +82,7 @@ const config: Config = {
           {
             tagName: 'link',
             rel: 'apple-touch-icon',
-            href: '/img/planthor-logo.png',
+            href: 'img/planthor-logo.png',
           },
         ],
       },
@@ -142,7 +142,7 @@ const config: Config = {
       title: 'Planthor',
       logo: {
         alt: 'Planthor Logo',
-        src: '/img/planthor-logo.png',
+        src: 'img/planthor-logo.png',
       },
       items: [
         {

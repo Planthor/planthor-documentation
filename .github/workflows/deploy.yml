@@ -7,11 +7,30 @@ on:
     # Review changes to relevant files
     paths:
       - 'docs/**'
+      - 'i18n/**'
+      - 'scripts/**'
       - 'src/**'
       - 'static/**'
       - 'docusaurus.config.ts'
+      - 'sidebars.ts'
       - 'package.json'
       - 'package-lock.json'
+      - 'tsconfig.json'
+      - '.github/workflows/deploy.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'i18n/**'
+      - 'scripts/**'
+      - 'src/**'
+      - 'static/**'
+      - 'docusaurus.config.ts'
+      - 'sidebars.ts'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
       - '.github/workflows/deploy.yml'
   workflow_dispatch:
 

@@ -18,6 +18,16 @@
   background-size: 20px 20px;
 }
 
+.heroContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.heroContent {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
 [data-theme='dark'] .heroBanner {
   background-color: #001a33;
   border-bottom: 8px solid var(--ifm-color-primary);
