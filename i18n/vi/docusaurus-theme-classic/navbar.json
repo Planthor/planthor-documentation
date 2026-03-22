@@ -1,0 +1,22 @@
+{
+  "title": {
+    "message": "Planthor",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "Planthor Logo",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Documentation": {
+    "message": "Tài liệu",
+    "description": "Navbar item with label Documentation"
+  },
+  "item.label.About": {
+    "message": "Giới thiệu",
+    "description": "Navbar item with label About"
+  },
+  "item.label.GitHub": {
+    "message": "GitHub",
+    "description": "Navbar item with label GitHub"
+  }
+}
