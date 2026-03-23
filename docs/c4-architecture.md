@@ -4,6 +4,32 @@ sidebar_label: C4 Architecture
 sidebar_position: 5
 ---
 
+# High-Level System Overview
+
+```mermaid
+flowchart LR
+  direction LR
+  subgraph Planthor
+    subgraph UI
+        Planthor_frontend
+    end
+    subgraph IDP
+        direction LR
+        Oauth --> user_db(Postgresql)
+    end
+    UI -- Verify --> IDP
+    subgraph BE
+      direction LR 
+      Planthor_backend --> planthor_be_db(NoSQL)
+    end
+    direction LR
+    UI --> BE
+    IDP -- Login --> BE
+  end
+  
+  USER --> Planthor
+```
+
 # Software System (Context)
 
 ```pumld
@@ -20,7 +46,7 @@ Person(admin, "Admin")
 System(planthorSystem, "Planthor System", "Allow customers to set goals and view progress")
 
 System_Ext(strava, "Strava")
-System_Ext(github, "Github")
+System_Ext(github, "GitHub")
 
 Rel(customer, planthorSystem, "Uses")
 Rel(admin, planthorSystem, "Uses")
@@ -48,21 +74,24 @@ Boundary(b, "Planthor") {
     Container(webApp, "Planthor Web App", "Set goals and view progress from browser")
     Container(mobileApp, "Planthor iOS App", "Set goals and view progress from iOS device")
     Container(backEnd, "Planthor Backend", "Manage resources in Planthor")
-    Container(idp, "Planthor IDP", "[Keyclk.]Manage user, SSO")
+    Container(idp, "Planthor IDP", "[Keycloak] Manage user, SSO")
     Container(adminPortal, "Admin Portal", "(future) Manage client app activities")
-    ContainerDb(planthorDb, "Planthor DB")
+    ContainerDb(planthorDb, "Planthor DB (SQL)")
+    ContainerDb(resourceDb, "Resource DB (NoSQL)")
+
     Rel(webApp, idp, "Auth")
     Rel(webApp, backEnd, "Request", "HTTP")
     Rel(mobileApp, idp, "Auth")
     Rel(mobileApp, backEnd, "Request", "HTTP")
     Rel(backEnd, idp, "Auth")
     Rel(backEnd, planthorDb, "Read/Write")
+    Rel(backEnd, resourceDb, "Read/Write")
     Rel(adminPortal, planthorDb, "Read/Write")
     Rel(adminPortal, idp, "Auth")
 }
 
 System_Ext(strava, "Strava")
-System_Ext(github, "Github")
+System_Ext(github, "GitHub")
 
 Rel(customer, webApp, "Uses")
 Rel(customer, mobileApp, "Uses")
@@ -76,9 +105,6 @@ SHOW_LEGEND()
 ```
 
 # Component
-
-## Planthor Backend
-
 ```pumld
 @startuml Planthor_Component_Backend
 skinparam linetype ortho
@@ -91,30 +117,26 @@ Boundary(b, "Planthor") {
     Container(idp, "Planthor IDP", "Keycloak")
 
     Container_Boundary(backend, "Backend"){
-        Component(resourceAPI, "Resource API")
-        Component(githubAdapter, "Github Adapter")
-        Component(stravaAdapter, "Strava Adapter")
+        Component(resourceAPI, "Resource API", ".NET 10")
+        Component(githubAdapter, "GitHub Adapter", ".NET 10")
+        Component(stravaAdapter, "Strava Adapter", ".NET 10")
         Rel(resourceAPI, githubAdapter, "Connect")
         Rel(resourceAPI, stravaAdapter, "Connect")
     }
 
-    ContainerDb(planthorResourceDb, "Resource Db", "MongoDb")
-    ContainerDb(githubAdptDb, "Github Adpt. Db", "MongoDb")
-    ContainerDb(stravaAdptDb, "Strava Adpt. Db", "MongoDb")
+    ContainerDb(resourceDb, "Resource DB", "MongoDB Atlas")
 
     Rel(webApp, resourceAPI, "Request", "HTTP")
     Rel(mobileApp, resourceAPI, "Request", "HTTP")
     Rel(resourceAPI, idp, "Auth")
-    Rel(resourceAPI, planthorResourceDb, "Read/Write", "NoSQL")
-    Rel(githubAdapter, githubAdptDb, "Read/Write", "NoSQL")
-    Rel(stravaAdapter, stravaAdptDb, "Read/Write", "NoSQL")
+    Rel(resourceAPI, resourceDb, "Read/Write", "NoSQL")
 }
 
 System_Ext(strava, "Strava")
-System_Ext(github, "Github")
+System_Ext(github, "GitHub")
 
-Rel(stravaAdapter, strava, "Intg./Subs", "Webhook")
-Rel(githubAdapter, github, "Intg./Subs", "Webhook")
+Rel(stravaAdapter, strava, "Sync", "REST API")
+Rel(githubAdapter, github, "Sync", "REST API")
 
 SHOW_LEGEND()
 @enduml

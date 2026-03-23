@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2024-01-15T18:48:47.029Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.18 Chrome/120.0.6099.199 Electron/28.1.2 Safari/537.36" version="22.1.18" etag="GmkcC1jpxtBThzcseEHo" type="device" pages="2">
+<mxfile host="Electron" modified="2024-01-15T18:45:43.705Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.18 Chrome/120.0.6099.199 Electron/28.1.2 Safari/537.36" version="22.1.18" etag="vfg1uGOkwLgforFg6wAU" type="device" pages="2">
   <diagram id="hMm7ECTgoy2IlNAjePhm" name="CI/CD">
     <mxGraphModel dx="1114" dy="999" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="2336" math="0" shadow="0">
       <root>
@@ -161,8 +161,8 @@
         <mxCell id="70" value="Manual trigger deploy" style="whiteSpace=wrap;html=1;fontSize=20;container=0;" parent="1" vertex="1">
           <mxGeometry x="2968.8843091983745" y="635.019742853863" width="218.9250905013007" height="60.08265411548617" as="geometry" />
         </mxCell>
-        <mxCell id="111" value="&lt;b style=&quot;font-size: 20px;&quot;&gt;Azure cloud&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=20;" parent="1" vertex="1">
-          <mxGeometry x="2835.5" y="710" width="140" height="40" as="geometry" />
+        <mxCell id="111" value="&lt;b style=&quot;font-size: 20px;&quot;&gt;Google Cloud Platform&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=20;" parent="1" vertex="1">
+          <mxGeometry x="2835.5" y="710" width="240" height="40" as="geometry" />
         </mxCell>
         <mxCell id="124" value="" style="group;fontSize=20;" parent="1" vertex="1" connectable="0">
           <mxGeometry x="1192.5" y="690" width="607.5" height="600" as="geometry" />
@@ -202,7 +202,7 @@
         <mxCell id="114" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=20;" parent="124" source="35" target="41" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="43" value="Push to atifactory" style="whiteSpace=wrap;html=1;fontSize=20;" parent="124" vertex="1">
+        <mxCell id="43" value="Push to GH Registry" style="whiteSpace=wrap;html=1;fontSize=20;" parent="124" vertex="1">
           <mxGeometry x="407.5" y="540" width="200" height="60" as="geometry" />
         </mxCell>
         <mxCell id="115" style="edgeStyle=none;html=1;fontSize=20;" parent="124" source="41" target="43" edge="1">
@@ -351,8 +351,8 @@
         <mxCell id="Bb6XK-WtO-B6GaOaBNSR-52" value="z" style="aspect=fixed;sketch=0;html=1;dashed=0;whitespace=wrap;fillColor=#2875E2;strokeColor=#ffffff;points=[[0.005,0.63,0],[0.1,0.2,0],[0.9,0.2,0],[0.5,0,0],[0.995,0.63,0],[0.72,0.99,0],[0.5,1,0],[0.28,0.99,0]];shape=mxgraph.kubernetes.icon2;kubernetesLabel=1;prIcon=pod" vertex="1" parent="Bb6XK-WtO-B6GaOaBNSR-51">
           <mxGeometry x="15" width="150" height="144" as="geometry" />
         </mxCell>
-        <mxCell id="Bb6XK-WtO-B6GaOaBNSR-53" value="&lt;span style=&quot;font-size: 25px;&quot;&gt;Planthor_UDP&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="Bb6XK-WtO-B6GaOaBNSR-51">
-          <mxGeometry y="170" width="180" height="40" as="geometry" />
+        <mxCell id="Bb6XK-WtO-B6GaOaBNSR-53" value="&lt;span style=&quot;font-size: 25px;&quot;&gt;Planthor_IDP (Keycloak)&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="Bb6XK-WtO-B6GaOaBNSR-51">
+          <mxGeometry y="170" width="300" height="40" as="geometry" />
         </mxCell>
         <mxCell id="Bb6XK-WtO-B6GaOaBNSR-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="Bb6XK-WtO-B6GaOaBNSR-100" source="Bb6XK-WtO-B6GaOaBNSR-46" target="Bb6XK-WtO-B6GaOaBNSR-52">
           <mxGeometry relative="1" as="geometry" />

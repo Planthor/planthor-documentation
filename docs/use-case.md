@@ -5,7 +5,23 @@ sidebar_position: 8
 ---
 
 # Epic01 - Authentication
-## UC01: Log-in by Facebook Account
+## UC01: Log-In by Facebook Account
+
+### Technical Flow (PKCE)
+```mermaid
+sequenceDiagram
+    User->>Frontend (Client): Initiate login
+    Frontend (Client)->>Frontend (Client): Generate Code Verifier and Code Challenge
+    Frontend (Client)->>Planthor Identity Server: Authorization Code Request + Code Challenge
+    Planthor Identity Server-->>User: Redirect to the login page (login/authorization prompt)
+    User-->>Planthor Identity Server: Authenticate and Consent
+    Planthor Identity Server-->>Frontend (Client): Authorization code
+    Frontend (Client)->>Planthor Identity Server: Token request + Code Verifier to /oauth/token
+    Planthor Identity Server->>Planthor Identity Server: Validate Code Verifier and Challenge
+    Planthor Identity Server->>Frontend (Client): Access token and ID token
+    Frontend (Client)->>Planthor Resource Server: Access protected resource with Access token
+    Planthor Resource Server-->>Frontend (Client): Protected resource
+```
 
 1. Overview
 * **Epic:** Authentication
@@ -80,7 +96,7 @@ sidebar_position: 8
 
 
 
-## UC02 - Connect to Strava
+## UC02: Connect to Strava
 
 **1. Overview**
 **Feature:** Connect to Strava
@@ -151,7 +167,7 @@ sidebar_position: 8
 - **Privacy & Compliance:** Strava `access_tokens` and `refresh_tokens` must be heavily encrypted at rest in the database. When a user deletes their Planthor account, a mandated web request must be sent to Strava to proactively revoke the token, honoring user data deletion rights.
 
 
-## UC03 - Log Out
+## UC03: Log Out
 
 **1. Overview**
 **Feature:** User Log Out

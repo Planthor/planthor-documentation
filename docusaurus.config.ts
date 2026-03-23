@@ -80,6 +80,28 @@ const config: Config = {
   ],
 
   plugins: [
+    function suppressWarningsPlugin() {
+      return {
+        name: 'suppress-warnings-plugin',
+        configureWebpack() {
+          return {
+            stats: {
+              warningsFilter: [
+                /Critical dependency: require function is used in a way in which dependencies cannot be statically extracted/,
+                /vscode-languageserver-types/,
+              ],
+            },
+            // Alternatively, for Webpack 5+ (Docusaurus 3)
+            ignoreWarnings: [
+              {
+                module: /vscode-languageserver-types/,
+                message: /Critical dependency/,
+              },
+            ],
+          };
+        },
+      };
+    },
     [
       require.resolve("@easyops-cn/docusaurus-search-local"),
       /** @type {import("@easyops-cn/docusaurus-search-local").PluginOptions} */

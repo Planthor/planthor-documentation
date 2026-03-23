@@ -8,9 +8,9 @@ sidebar_position: 4
 
 This page describes the technology choices powering Planthor across all layers of the system — from the device in a user's hand to the pipelines that ship the product. Each decision is made to optimize for developer velocity, cross-platform reach, and long-term maintainability.
 
-## Front-end
+## Front-End
 
-### Framework — Flutter (latest stable)
+### Framework — Flutter (Latest Stable)
 
 Planthor targets iOS first, followed by Android, then Web — all from a single Flutter codebase.
 
@@ -22,11 +22,11 @@ Planthor targets iOS first, followed by Android, then Web — all from a single 
 
 **iOS** — primary target; all new features are built and QA'd here first. TestFlight is used for internal and external beta distribution.
 
-## Back-end
+## Back-End
 
-### Resource Api
+### Resource API
 
-#### Runtime — .NET 10
+#### Runtime — .net 10
 
 All server-side workloads run on **ASP.NET Core 10**, targeting the latest LTS-aligned release.
 

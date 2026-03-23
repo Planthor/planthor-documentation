@@ -12,7 +12,7 @@ sidebar_position: 10
 
 ---
 
-**1. Prioritization Framework (MoSCoW)**
+## **1. Prioritization Framework (MoSCoW)**
 To maximize our lean team setup and reduce time-to-market, we apply the MoSCoW framework. Our primary goal is to validate the core user value (personal training utility) before investing in network effects (social features).
 
 - **Must-Have (MVP):** EP01-Authentication, EP04-Setting (Strava Link), and EP02-Dashboard (Core Plan CRUD and Manual Sync).
@@ -21,9 +21,9 @@ To maximize our lean team setup and reduce time-to-market, we apply the MoSCoW f
 
 ---
 
-**2. Phased Execution Roadmap**
+## **2. Phased Execution Roadmap**
 
- **Phase 1: MVP - Core Utility & Retention Engine**
+### **Phase 1: MVP - Core Utility & Retention Engine**
 
 **Objective:** Deliver the foundational single-player experience. Users must be able to securely authenticate, connect their tracking source (Strava), and visually manage their running plans.
 
@@ -39,7 +39,7 @@ To maximize our lean team setup and reduce time-to-market, we apply the MoSCoW f
   - Manual sync Sport activity (Lean initial approach to data ingestion).
 
 
- **Phase 2: Social Discovery & Networking Foundations**
+### **Phase 2: Social Discovery & Networking Foundations**
 
 **Objective:** Transition from a single-player utility to a multiplayer community. Users can connect with others and view individual activity by directly visiting a friend's personal wall.
 
@@ -50,7 +50,7 @@ To maximize our lean team setup and reduce time-to-market, we apply the MoSCoW f
   - View friends wall.
 
 
- **Phase 3: The Social Feed, Deep Engagement & Viral Loops**
+### **Phase 3: The Social Feed, Deep Engagement & Viral Loops**
 
 **Objective:** Stimulate DAU through an aggregated Social Feed, frictionless social validation (Kudos), and automated sharing mechanics.
 
