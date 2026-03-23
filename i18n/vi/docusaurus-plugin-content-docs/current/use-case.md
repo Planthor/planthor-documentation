@@ -1,11 +1,32 @@
 ---
-title: Use Case Planthor
+title: Các trường hợp sử dụng Planthor
 sidebar_label: Use Cases
 sidebar_position: 8
 ---
 
-# Epic01 - Authentication
-## UC01: Log-in by Facebook Account
+# Epic01 - Xác thực
+## UC01: Đăng nhập bằng tài khoản Facebook
+
+### Luồng Kỹ thuật (PKCE)
+```mermaid
+sequenceDiagram
+    participant User as Người dùng
+    participant Client as Frontend (Client)
+    participant IDP as Planthor Identity Server
+    participant RS as Planthor Resource Server
+
+    User->>Client: Bắt đầu đăng nhập
+    Client->>Client: Tạo Code Verifier và Code Challenge
+    Client->>IDP: Yêu cầu Mã ủy quyền (Authorization Code Request) + Code Challenge
+    IDP-->>User: Chuyển hướng đến trang đăng nhập (yêu cầu đăng nhập/ủy quyền)
+    User-->>IDP: Xác thực và Chấp thuận
+    IDP-->>Client: Mã ủy quyền (Authorization code)
+    Client->>IDP: Yêu cầu Token + Code Verifier tới /oauth/token
+    IDP->>IDP: Xác thực Code Verifier và Challenge
+    IDP->>Client: Access token và ID token
+    Client->>RS: Truy cập tài nguyên được bảo vệ bằng Access token
+    RS-->>Client: Tài nguyên được bảo vệ
+```
 
 1. Tổng quan
 * **Epic:** Authentication
@@ -130,7 +151,7 @@ sidebar_position: 8
 **7. Luồng ngoại lệ & Trạng thái lỗi**
 **7.1 Lỗi phía Client / Do người dùng**
 - **EF1: Người dùng từ chối truy cập trên cổng Strava:**
-  - *Trigger:* Người dùng nhấn "Cancel" trên màn hình ủy quyền của Strava.
+  - *Trigger:** Người dùng nhấn "Cancel" trên màn hình ủy quyền của Strava.
   - *Trạng thái:* Người dùng được đưa quay lại màn hình hướng dẫn Planthor. Một cảnh báo bắt buộc xuất hiện: "Kết nối Strava là bắt buộc để theo dõi kế hoạch chạy bộ và hồ sơ của quý vị. Vui lòng thử lại để tiếp tục sử dụng Planthor." 
   - *Khắc phục:* Nút "Connect with Strava" vẫn là yếu tố hành động duy nhất.
 

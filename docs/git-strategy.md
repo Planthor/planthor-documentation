@@ -30,7 +30,7 @@ gitGraph
     commit id: "HEAD" tag: "latest" type: HIGHLIGHT
 ```
 
-## Tentative release plan
+## Tentative Release Plan
 
 Ideally:
 
