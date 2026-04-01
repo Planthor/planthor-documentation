@@ -15,6 +15,8 @@ const SITE_URL = 'https://planthor.github.io/planthor-documentation';
 function LandingPageContent() {
   const {siteConfig, i18n} = useDocusaurusContext();
   const {colorMode, setColorMode} = useColorMode();
+  const themeConfig = siteConfig.themeConfig as any;
+  const respectPrefersColorScheme = themeConfig.colorMode?.respectPrefersColorScheme ?? true;
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -54,17 +56,24 @@ function LandingPageContent() {
               <ColorModeToggle
                 value={colorMode}
                 onChange={setColorMode}
+                respectPrefersColorScheme={respectPrefersColorScheme}
               />
               <div className="lp-locale-switcher">
-                {i18n.locales.map((locale) => (
-                  <Link
-                    key={locale}
-                    to={useBaseUrl('/', {locale})}
-                    className={i18n.currentLocale === locale ? 'lp-locale-link active' : 'lp-locale-link'}
-                  >
-                    {locale.toUpperCase()}
-                  </Link>
-                ))}
+                {i18n.locales.map((locale) => {
+                  const isCurrentLocale = i18n.currentLocale === locale;
+                  // Use absolute paths to be safe
+                  const {url, baseUrl} = siteConfig;
+                  const targetPath = locale === i18n.defaultLocale ? baseUrl : `${baseUrl}${locale}/`;
+                  return (
+                    <a
+                      key={locale}
+                      href={targetPath}
+                      className={isCurrentLocale ? 'lp-locale-link active' : 'lp-locale-link'}
+                    >
+                      {locale.toUpperCase()}
+                    </a>
+                  );
+                })}
               </div>
             </div>
 
