@@ -121,6 +121,8 @@
   align-items: center;
   gap: 1.5rem;
   margin-left: 1rem;
+  z-index: 1001;
+  pointer-events: auto;
 }
 
 /* Fix Docusaurus theme components in custom header */
