@@ -4,8 +4,61 @@ sidebar_label: DevOps
 sidebar_position: 11
 ---
 
+## Structure of ORG
 
-# Infrastructure Consideration (Dirty Cheap and Best Practices)
+``` mermaid
+graph TD
+    %% Global Styling
+    classDef default fill:#1e1e1e,stroke:#333,color:#fff,font-family:sans-serif;
+    
+    %% Org Config Section
+    subgraph ORG_CONFIG ["ORG CONFIG"]
+        direction LR
+        config1[".github<br/><small>Issue templates, PR templates, CODEOWNERS</small><br/><b>Config</b>"]
+        config2["planthor-documentation<br/><small>Central wiki — architecture diagrams, ERD, PKCE</small><br/><b>Mermaid • Docs</b>"]
+    end
+
+    %% Frontend Section
+    subgraph FRONTEND ["FRONTEND"]
+        direction LR
+        fe1["PlanthorWebApp<br/><small>Browser app — goal dashboard, tribe views</small><br/><b>Svelte • TypeScript</b>"]
+        fe2["planthor-mobile<br/><small>Cross-platform mobile — Android + iOS</small><br/><b>Flutter • Dart</b>"]
+    end
+
+    %% Backend Section
+    subgraph BACKEND ["BACKEND"]
+        be1["PlanthorWebApi<br/><small>Main resource server — Clean Arch + DDD + CQRS</small><br/><b>.NET 8 • C# • MongoDB</b>"]
+    end
+
+    %% Platform Section
+    subgraph PLATFORM ["PLATFORM"]
+        direction LR
+        p1["planthor-identity-server-openiddict<br/><small>Custom IDP — replaces archived Keycloak server</small><br/><b>.NET 8 • C# • PostgreSQL</b>"]
+        p2["planthor-infra<br/><small>Terraform IaC, Kubernetes, Helm charts</small><br/><b>Terraform • HCL</b>"]
+        p3["planthor-local-dev<br/><small>Docker Compose for full local stack</small><br/><b>Docker • Shell</b>"]
+    end
+
+    %% Archived Section
+    subgraph ARCHIVED ["ARCHIVED"]
+        direction LR
+        old1["PlanthorIdentityServer (archived)<br/><small>Original IDP — superseded by OpenIddict</small><br/><b>C#</b>"]
+        old2["Planthor_ClientBackEndWebApp (archived)<br/><small>Early monolith prototype</small><br/><b>C#</b>"]
+    end
+
+    %% Styling Classes for Categories
+    style ORG_CONFIG fill:#333,stroke:#666,color:#fff
+    style FRONTEND fill:#064e3b,stroke:#10b981,color:#fff
+    style BACKEND fill:#1e3a8a,stroke:#3b82f6,color:#fff
+    style PLATFORM fill:#4c1d95,stroke:#8b5cf6,color:#fff
+    style ARCHIVED fill:#262626,stroke:#404040,color:#fff
+
+    %% Node Styling
+    class config1,config2,fe1,fe2,be1,p1,p2,p3,old1,old2 default;
+
+```
+
+
+## Infrastructure Consideration (Dirty Cheap and Best Practices)
 
 To optimize developer velocity while maintaining near-zero infrastructure costs during the development and sandbox phases of Planthor, the architecture heavily leverages serverless components and Google Cloud's Free Tier limits.
 

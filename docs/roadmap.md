@@ -4,11 +4,47 @@ sidebar_label: Roadmap
 sidebar_position: 10
 ---
 
+
+
+
 # Roadmap
  Product Roadmap: Planthor
 
 **Prepared by:** Product Manager
 **Team Capacity:** 1 Frontend Engineer (FE), 1 Backend Engineer (BE), 1 DevOps Engineer, 1 Product Owner (PO).
+
+
+```mermaid
+mindmap
+((Planthor))
+
+  EP01-Authentication
+    Log-in by Facebook 
+    Logout
+
+  EP02 - User's Dashboard
+    Create / Edit running plan
+    Delete plan
+    View user's plans list
+     View Plan
+      Plan info / progress
+      View complete a Sport activity
+      Manual sync Sport activity
+
+
+  EP03- Social Feed
+    (Search friend by name)
+    Follow friends
+    View friends wall
+    View friends’ activities on Feed
+    (Like - Kudos)
+    Auto Share plan progress to feed when sport session complete
+
+  EP04- Setting
+    (Link to Strava)
+    Delete account
+```
+
 
 ---
 
