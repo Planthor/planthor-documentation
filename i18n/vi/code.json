@@ -360,5 +360,13 @@
   "theme.tags.tagsPageTitle": {
     "message": "Thẻ",
     "description": "The title of the tag list page"
+  },
+  "theme.PwaReloadPopup.message": {
+    "message": "Nội dung mới đã sẵn sàng.",
+    "description": "The message shown in the PWA reload popup"
+  },
+  "theme.PwaReloadPopup.button": {
+    "message": "Tải lại",
+    "description": "The text of the button in the PWA reload popup"
   }
 }

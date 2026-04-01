@@ -1,7 +1,11 @@
 import React, {useCallback} from 'react';
-import type {Props} from '@theme/PwaReloadPopup';
+import Translate, {translate} from '@docusaurus/Translate';
 
-export default function PwaReloadPopup({onReload}: Props): JSX.Element | null {
+export interface Props {
+  readonly onReload: () => void;
+}
+
+export default function PwaReloadPopup({onReload}: Props): React.JSX.Element | null {
   const handleReload = useCallback(() => {
     onReload();
   }, [onReload]);
@@ -21,7 +25,13 @@ export default function PwaReloadPopup({onReload}: Props): JSX.Element | null {
         boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
         zIndex: 9999,
       }}>
-      <span>New content is available.</span>
+      <span>
+        <Translate
+          id="theme.PwaReloadPopup.message"
+          description="The message shown in the PWA reload popup">
+          New content is available.
+        </Translate>
+      </span>
       <button
         onClick={handleReload}
         style={{
@@ -34,7 +44,11 @@ export default function PwaReloadPopup({onReload}: Props): JSX.Element | null {
           letterSpacing: '0.05em',
           textTransform: 'uppercase',
         }}>
-        Reload
+        <Translate
+          id="theme.PwaReloadPopup.button"
+          description="The text of the button in the PWA reload popup">
+          Reload
+        </Translate>
       </button>
     </div>
   );
