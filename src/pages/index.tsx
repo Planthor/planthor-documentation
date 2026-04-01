@@ -2,13 +2,21 @@ import React, {useEffect} from 'react';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import Head from '@docusaurus/Head';
+import Translate, {translate} from '@docusaurus/Translate';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import SearchBar from '@theme/SearchBar';
+import ColorModeToggle from '@theme/ColorModeToggle';
+import {useColorMode} from '@docusaurus/theme-common';
+import Layout from '@theme/Layout';
 import '../css/landing.css';
 
 const SITE_URL = 'https://planthor.github.io/planthor-documentation';
 
-export default function Home(): React.JSX.Element {
+function LandingPageContent() {
+  const {siteConfig, i18n} = useDocusaurusContext();
+  const {colorMode, setColorMode} = useColorMode();
+
   useEffect(() => {
-    // Basic Intersection Observer for scroll animations
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -18,22 +26,11 @@ export default function Home(): React.JSX.Element {
     }, { threshold: 0.1 });
 
     document.querySelectorAll('.lp-observe').forEach(el => observer.observe(el));
-    
     return () => observer.disconnect();
   }, []);
 
   return (
     <div className="landing-page">
-      <Head>
-        <title>Planthor – Dragging to Dream</title>
-        <meta name="description" content="Industrial-grade goal tracker for athletes who refuse to quit. Built for the persistence of the D2D community." />
-        <link rel="canonical" href={SITE_URL} />
-        <meta property="og:title" content="Planthor – Dragging to Dream" />
-        <meta property="og:description" content="Industrial-grade goal tracker for athletes who refuse to quit. Built for the persistence of the D2D community." />
-        <meta property="og:url" content={SITE_URL} />
-        <meta property="og:image" content={`${SITE_URL}/img/planthor-logo.png`} />
-      </Head>
-
       {/* Navigation */}
       <nav className="lp-nav">
         <div className="lp-nav-container">
@@ -42,10 +39,38 @@ export default function Home(): React.JSX.Element {
             PLANTHOR
           </Link>
           <div className="lp-nav-links">
-            <Link to="/docs/" className="lp-nav-link">Documentation</Link>
-            <Link to="/about" className="lp-nav-link">About</Link>
-            <Link to="https://github.com/planthor" className="lp-nav-link">GitHub</Link>
-            <Link to="/docs/" className="lp-cta-button">Get Started</Link>
+            <Link to="/docs/" className="lp-nav-link">
+              <Translate id="nav.documentation">Documentation</Translate>
+            </Link>
+            <Link to="/about" className="lp-nav-link">
+              <Translate id="nav.about">About</Translate>
+            </Link>
+            <Link to="https://github.com/planthor" className="lp-nav-link">
+              <Translate id="nav.github">GitHub</Translate>
+            </Link>
+            
+            <div className="lp-nav-controls">
+              <SearchBar />
+              <ColorModeToggle
+                value={colorMode}
+                onChange={setColorMode}
+              />
+              <div className="lp-locale-switcher">
+                {i18n.locales.map((locale) => (
+                  <Link
+                    key={locale}
+                    to={useBaseUrl('/', {locale})}
+                    className={i18n.currentLocale === locale ? 'lp-locale-link active' : 'lp-locale-link'}
+                  >
+                    {locale.toUpperCase()}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <Link to="/docs/" className="lp-cta-button">
+              <Translate id="nav.getStarted">Get Started</Translate>
+            </Link>
           </div>
         </div>
       </nav>
@@ -54,19 +79,22 @@ export default function Home(): React.JSX.Element {
       <header className="lp-hero">
         <div className="lp-hero-content lp-observe">
           <h1 className="lp-hero-title">
-            DRAGGING<br />TO DREAM
+            <Translate id="homepage.hero.title">DRAGGING TO DREAM</Translate>
           </h1>
           <p className="lp-hero-subtitle">
-            The industrial-grade goal tracker for athletes who refuse to quit. 
-            Built for the persistence of the D2D community.
+            <Translate id="homepage.hero.subtitle">
+              The industrial-grade goal tracker for athletes who refuse to quit. 
+              Built for the persistence of the D2D community.
+            </Translate>
           </p>
           <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center' }}>
             <Link to="/docs/" className="lp-cta-button" style={{ padding: '1.25rem 3rem', fontSize: '1.1rem' }}>
-              Launch App
+              <Translate id="homepage.hero.launchApp">Launch App</Translate>
             </Link>
             <Link to="/docs/" className="lp-nav-link" style={{ alignSelf: 'center', opacity: 1, borderBottom: '2px solid' }}>
-              Read the Docs →
-            </Link>          </div>
+              <Translate id="homepage.hero.readDocs">Read the Docs →</Translate>
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -75,34 +103,52 @@ export default function Home(): React.JSX.Element {
         <div className="lp-container">
           <div className="lp-observe" style={{ textAlign: 'center', marginBottom: '4rem' }}>
             <h2 style={{ fontSize: '4rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '-0.05em' }}>
-              Core Objectives
+              <Translate id="homepage.features.title">Core Objectives</Translate>
             </h2>
-            <p style={{ fontSize: '1.5rem', opacity: 0.6 }}>Engineered for athletic growth and community persistence.</p>
+            <p style={{ fontSize: '1.5rem', opacity: 0.6 }}>
+              <Translate id="homepage.features.subtitle">Engineered for athletic growth and community persistence.</Translate>
+            </p>
           </div>
           
           <div className="lp-grid">
             <div className="lp-card lp-observe">
-              <h3 className="lp-card-title">Precision Tracking</h3>
+              <h3 className="lp-card-title">
+                <Translate id="homepage.features.goal1.title">Precision Tracking</Translate>
+              </h3>
               <p className="lp-card-text">
-                Manage running plans with industrial precision. Every session counts towards your ultimate objective.
+                <Translate id="homepage.features.goal1.description">
+                  Manage running plans with industrial precision. Every session counts towards your ultimate objective.
+                </Translate>
               </p>
             </div>
             <div className="lp-card lp-observe">
-              <h3 className="lp-card-title">Seamless Sync</h3>
+              <h3 className="lp-card-title">
+                <Translate id="homepage.features.goal2.title">Seamless Sync</Translate>
+              </h3>
               <p className="lp-card-text">
-                Automatically sync your athletic progress from Strava to maintain a single source of truth for your goals.
+                <Translate id="homepage.features.goal2.description">
+                  Automatically sync your athletic progress from Strava to maintain a single source of truth for your goals.
+                </Translate>
               </p>
             </div>
             <div className="lp-card lp-observe">
-              <h3 className="lp-card-title">Social Feed</h3>
+              <h3 className="lp-card-title">
+                <Translate id="homepage.features.goal3.title">Social Feed</Translate>
+              </h3>
               <p className="lp-card-text">
-                Connect with the D2D community. Share achievements and foster a collective mentality of progress.
+                <Translate id="homepage.features.goal3.description">
+                  Connect with the D2D community. Share achievements and foster a collective mentality of progress.
+                </Translate>
               </p>
             </div>
             <div className="lp-card lp-observe">
-              <h3 className="lp-card-title">Open Framework</h3>
+              <h3 className="lp-card-title">
+                <Translate id="homepage.features.goal4.title">Open Framework</Translate>
+              </h3>
               <p className="lp-card-text">
-                Built on efficient tech-stacks. Transparent, open-source, and ready for your contributions.
+                <Translate id="homepage.features.goal4.description">
+                  Built on efficient tech-stacks. Transparent, open-source, and ready for your contributions.
+                </Translate>
               </p>
             </div>
           </div>
@@ -112,13 +158,17 @@ export default function Home(): React.JSX.Element {
       {/* Community Section */}
       <section className="lp-community">
         <div className="lp-observe">
-          <h2 className="lp-community-title">The D2D Journey</h2>
+          <h2 className="lp-community-title">
+            <Translate id="homepage.community.title">The D2D Journey</Translate>
+          </h2>
           <p className="lp-community-text">
-            Planthor is more than a tool; it's a structural foundation for the "Dragging to Dream" community. 
-            We prioritize efficiency, practical solutions, and industrial-standard best practices.
+            <Translate id="homepage.community.text">
+              Planthor is more than a tool; it's a structural foundation for the "Dragging to Dream" community. 
+              We prioritize efficiency, practical solutions, and industrial-standard best practices.
+            </Translate>
           </p>
           <Link to="/docs/use-case" className="lp-cta-button" style={{ backgroundColor: 'white', color: 'var(--lp-navy)', padding: '1.5rem 4rem' }}>
-            Explore Use Cases
+            <Translate id="homepage.community.cta">Explore Use Cases</Translate>
           </Link>
         </div>
       </section>
@@ -132,20 +182,42 @@ export default function Home(): React.JSX.Element {
           </div>
           <div className="lp-footer-links">
             <div className="lp-footer-col">
-              <h4>Documentation</h4>
-              <Link to="/docs/" className="lp-footer-link">Getting Started</Link>
-              <Link to="/docs/api-specs" className="lp-footer-link">API Specs</Link>
-              <Link to="/docs/roadmap" className="lp-footer-link">Roadmap</Link>
+              <h4><Translate id="footer.documentation">Documentation</Translate></h4>
+              <Link to="/docs/" className="lp-footer-link">
+                <Translate id="footer.getStarted">Getting Started</Translate>
+              </Link>
+              <Link to="/docs/api-specs" className="lp-footer-link">
+                <Translate id="footer.apiSpecs">API Specs</Translate>
+              </Link>
+              <Link to="/docs/roadmap" className="lp-footer-link">
+                <Translate id="footer.roadmap">Roadmap</Translate>
+              </Link>
             </div>
             <div className="lp-footer-col">
-              <h4>Community</h4>
+              <h4><Translate id="footer.community">Community</Translate></h4>
               <Link to="https://github.com/planthor" className="lp-footer-link">GitHub</Link>
-              <Link to="/about" className="lp-footer-link">About Us</Link>
-              <Link to="/goal-tracker" className="lp-footer-link">Goal Tracker</Link>
+              <Link to="/about" className="lp-footer-link">
+                <Translate id="footer.about">About Us</Translate>
+              </Link>
+              <Link to="/goal-tracker" className="lp-footer-link">
+                <Translate id="footer.goalTracker">Goal Tracker</Translate>
+              </Link>
             </div>
           </div>
         </div>
       </footer>
     </div>
+  );
+}
+
+export default function Home(): React.JSX.Element {
+  return (
+    <Layout
+      noFooter
+      wrapperClassName="custom-landing-page"
+      title={translate({message: 'Planthor – Dragging to Dream', id: 'homepage.title'})}
+      description={translate({message: 'Industrial-grade goal tracker for athletes who refuse to quit. Built for the persistence of the D2D community.', id: 'homepage.description'})}>
+      <LandingPageContent />
+    </Layout>
   );
 }

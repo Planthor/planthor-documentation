@@ -1,0 +1,1 @@
+# Keep the blog directory even if empty to avoid build warnings

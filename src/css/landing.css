@@ -34,6 +34,26 @@
   scroll-behavior: smooth;
 }
 
+/* Hide standard Docusaurus Navbar on Landing Page */
+:global(.custom-landing-page) ~ :global(.navbar) {
+  display: none !important;
+}
+
+/* If the navbar comes before the wrapper in the DOM */
+:global(.navbar):has(+ :global(.custom-landing-page)) {
+  display: none !important;
+}
+
+/* Broadest possible hiding for standard navbar on home page */
+:global(.navigation-with-keyboard:has(.custom-landing-page)) :global(.navbar) {
+  display: none !important;
+}
+
+/* Fallback for older browsers: hide navbar when custom-landing-page is anywhere */
+:global(body:has(.custom-landing-page)) :global(.navbar) {
+  display: none !important;
+}
+
 /* Navigation */
 .lp-nav {
   position: fixed;
@@ -94,6 +114,51 @@
 
 .lp-nav-link:hover {
   opacity: 1;
+}
+
+.lp-nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-left: 1rem;
+}
+
+/* Fix Docusaurus theme components in custom header */
+.lp-nav-controls :global(.navbar__search) {
+  padding: 0;
+}
+
+.lp-nav-controls :global(.navbar__items) {
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.lp-locale-switcher {
+  display: flex;
+  gap: 0.5rem;
+  border: 2px solid var(--lp-gray-100);
+  padding: 0.25rem;
+}
+
+.lp-locale-link {
+  text-decoration: none;
+  color: var(--lp-black);
+  font-weight: 800;
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  opacity: 0.4;
+  transition: all 0.2s;
+}
+
+.lp-locale-link:hover {
+  opacity: 0.8;
+}
+
+.lp-locale-link.active {
+  opacity: 1;
+  background-color: var(--lp-navy);
+  color: white;
 }
 
 .lp-cta-button {
