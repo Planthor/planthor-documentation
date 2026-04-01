@@ -6,7 +6,7 @@ import '../css/landing.css';
 
 const SITE_URL = 'https://planthor.github.io/planthor-documentation';
 
-export default function Home(): JSX.Element {
+export default function Home(): React.JSX.Element {
   useEffect(() => {
     // Basic Intersection Observer for scroll animations
     const observer = new IntersectionObserver((entries) => {
