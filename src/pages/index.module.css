@@ -4,66 +4,73 @@
  */
 
 .heroBanner {
-  padding: 8rem 0;
+  padding: 12rem 0;
   text-align: center;
   position: relative;
   overflow: hidden;
   background-color: var(--ifm-color-primary);
   color: #fff;
-  border-bottom: 8px solid #000;
-  /* Industrial Grid Pattern */
+  border-bottom: 12px solid #000;
+  /* Industrial Grid Pattern - subtle */
   background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 20px 20px;
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
 
 .heroContainer {
   display: flex;
   justify-content: center;
+  position: relative;
+  z-index: 1;
 }
 
 .heroContent {
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
 [data-theme='dark'] .heroBanner {
   background-color: #001a33;
-  border-bottom: 8px solid var(--ifm-color-primary);
+  border-bottom: 12px solid var(--ifm-color-primary);
 }
 
 .heroLogo {
-  width: 120px;
-  height: 120px;
-  margin-bottom: 2rem;
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+  width: 140px;
+  height: 140px;
+  margin-bottom: 3rem;
+  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.2));
 }
 
 .heroTitle {
-  font-size: 5rem;
-  line-height: 1;
-  margin-bottom: 1rem;
+  font-size: 7rem;
+  line-height: 0.9;
+  margin-bottom: 1.5rem;
   font-weight: 900;
-  letter-spacing: -0.05em;
-  text-shadow: 2px 2px 0px #000;
+  letter-spacing: -0.06em;
+  text-transform: uppercase;
+  text-shadow: 4px 4px 0px #000;
 }
 
 .heroSubtitle {
-  font-size: 1.6rem;
-  font-weight: 400;
-  max-width: 800px;
-  margin: 0 auto 3rem;
+  font-size: 1.8rem;
+  font-weight: 500;
+  max-width: 700px;
+  margin: 0 auto 4rem;
   text-transform: none;
-  opacity: 0.9;
+  opacity: 0.85;
+  line-height: 1.4;
 }
 
 @media screen and (max-width: 996px) {
   .heroBanner {
-    padding: 4rem 1rem;
+    padding: 6rem 1rem;
   }
   .heroTitle {
     font-size: 3.5rem;
+  }
+  .heroSubtitle {
+    font-size: 1.3rem;
   }
 }
 
@@ -71,13 +78,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 2rem;
   flex-wrap: wrap;
 }
 
 /* Community Section */
 .communitySection {
-  padding: 6rem 0;
+  padding: 10rem 0;
   background-color: #f4f4f4;
 }
 
@@ -87,8 +94,8 @@
 
 .stats {
   display: flex;
-  gap: 3rem;
-  margin-top: 3rem;
+  gap: 4rem;
+  margin-top: 4rem;
 }
 
 .statItem {
@@ -97,25 +104,30 @@
 }
 
 .statNumber {
-  font-size: 3rem;
-  font-weight: 800;
+  font-size: 4.5rem;
+  font-weight: 900;
   color: var(--ifm-color-primary);
   line-height: 1;
+  letter-spacing: -0.05em;
 }
 
 .statLabel {
-  font-size: 0.9rem;
+  font-size: 1rem;
   text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  opacity: 0.7;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  opacity: 0.6;
+  margin-top: 0.5rem;
 }
 
 .communityBox {
-  border: 4px solid #000;
-  padding: 3rem;
+  border: 8px solid #000;
+  padding: 4rem;
   background-color: #fff;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 [data-theme='dark'] .communityBox {
@@ -124,6 +136,41 @@
 }
 
 .communityBox h3 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  line-height: 1.1;
+}
+
+/* Goal Grid */
+.goalGrid {
+  padding: 8rem 0;
+  background-color: #fff;
+}
+
+[data-theme='dark'] .goalGrid {
+  background-color: #000;
+}
+
+.goalCard {
+  border: 4px solid #000;
+  padding: 3rem;
+  height: 100%;
+  background-color: #fff;
+}
+
+[data-theme='dark'] .goalCard {
+  border-color: var(--ifm-color-primary);
+  background-color: #001a33;
+}
+
+.goalCard h4 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--ifm-color-primary);
+}
+
+.goalCard p {
+  font-size: 1.1rem;
+  opacity: 0.8;
+  margin: 0;
 }
