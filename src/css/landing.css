@@ -9,6 +9,7 @@
   --lp-gray-100: #f4f4f4;
   --lp-gray-200: #e0e0e0;
   --lp-border-width: 6px;
+  --lp-nav-bg: rgba(255, 255, 255, 0.85);
   --lp-font-main: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
 
@@ -20,6 +21,7 @@
   --lp-black: #ffffff;
   --lp-gray-100: #001a33;
   --lp-gray-200: #003366;
+  --lp-nav-bg: rgba(0, 0, 0, 0.85);
 }
 
 .landing-page {
@@ -63,7 +65,7 @@
   z-index: 1000;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  background-color: rgba(var(--lp-white), 0.8);
+  background-color: var(--lp-nav-bg);
   border-bottom: 2px solid var(--lp-gray-100);
   display: flex;
   justify-content: center;
@@ -134,6 +136,22 @@
   padding: 0;
   display: flex;
   align-items: center;
+}
+
+/* Dark/light mode toggle button */
+.lp-theme-toggle {
+  background: none;
+  border: 2px solid var(--lp-gray-200);
+  border-radius: 0;
+  cursor: pointer;
+  padding: 0.3rem 0.5rem;
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--lp-black);
+  transition: border-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .lp-locale-switcher {

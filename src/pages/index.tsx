@@ -1,11 +1,9 @@
 import React, {useEffect} from 'react';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-import Head from '@docusaurus/Head';
 import Translate, {translate} from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import SearchBar from '@theme/SearchBar';
-import ColorModeToggle from '@theme/ColorModeToggle';
 import {useColorMode} from '@docusaurus/theme-common';
 import Layout from '@theme/Layout';
 import '../css/landing.css';
@@ -15,8 +13,6 @@ const SITE_URL = 'https://planthor.github.io/planthor-documentation';
 function LandingPageContent() {
   const {siteConfig, i18n} = useDocusaurusContext();
   const {colorMode, setColorMode} = useColorMode();
-  const themeConfig = siteConfig.themeConfig as any;
-  const respectPrefersColorScheme = themeConfig.colorMode?.respectPrefersColorScheme ?? true;
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -53,11 +49,14 @@ function LandingPageContent() {
             
             <div className="lp-nav-controls">
               <SearchBar />
-              <ColorModeToggle
-                value={colorMode}
-                onChange={setColorMode}
-                respectPrefersColorScheme={respectPrefersColorScheme}
-              />
+              <button
+                className="lp-theme-toggle"
+                onClick={() => setColorMode(colorMode === 'dark' ? 'light' : 'dark')}
+                title={colorMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                aria-label={colorMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {colorMode === 'dark' ? '☀️' : '🌙'}
+              </button>
               <div className="lp-locale-switcher">
                 {i18n.locales.map((locale) => {
                   const isCurrentLocale = i18n.currentLocale === locale;
