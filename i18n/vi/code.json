@@ -48,23 +48,23 @@
     "description": "Landing page features section subtitle"
   },
   "homepage.features.goal1.title": {
-    "message": "Theo dõi chính xác",
+    "message": "Precision Tracking",
     "description": "Feature card 1 title"
   },
   "homepage.features.goal1.description": {
-    "message": "Quản lý kế hoạch chạy với độ chính xác công nghiệp. Mỗi buổi tập đều hướng tới mục tiêu cuối cùng của bạn.",
+    "message": "Quản lý kế hoạch chạy với độ chính xác công nghiệp. Mỗi session đều hướng tới mục tiêu cuối cùng của bạn.",
     "description": "Feature card 1 description"
   },
   "homepage.features.goal2.title": {
-    "message": "Đồng bộ liền mạch",
+    "message": "Seamless Sync",
     "description": "Feature card 2 title"
   },
   "homepage.features.goal2.description": {
-    "message": "Tự động đồng bộ tiến trình thể thao từ Strava để duy trì một nguồn dữ liệu duy nhất cho mục tiêu của bạn.",
+    "message": "Tự động sync tiến trình thể thao từ Strava để duy trì một nguồn dữ liệu duy nhất cho mục tiêu của bạn.",
     "description": "Feature card 2 description"
   },
   "homepage.features.goal3.title": {
-    "message": "Mạng xã hội",
+    "message": "Social Feed",
     "description": "Feature card 3 title"
   },
   "homepage.features.goal3.description": {
@@ -72,11 +72,11 @@
     "description": "Feature card 3 description"
   },
   "homepage.features.goal4.title": {
-    "message": "Nền tảng mở",
+    "message": "Open Framework",
     "description": "Feature card 4 title"
   },
   "homepage.features.goal4.description": {
-    "message": "Được xây dựng trên các ngăn xếp công nghệ hiệu quả. Minh bạch, mã nguồn mở và sẵn sàng nhận đóng góp từ bạn.",
+    "message": "Được xây dựng trên các tech stack hiệu quả. Minh bạch, open-source và sẵn sàng nhận đóng góp từ bạn.",
     "description": "Feature card 4 description"
   },
   "homepage.community.title": {
@@ -88,7 +88,7 @@
     "description": "Community section body text"
   },
   "homepage.community.cta": {
-    "message": "Khám phá trường hợp sử dụng",
+    "message": "Khám phá Use Cases",
     "description": "Community section CTA button"
   },
   "footer.documentation": {
@@ -100,7 +100,7 @@
     "description": "Custom footer link: Getting Started"
   },
   "footer.apiSpecs": {
-    "message": "Thông số kỹ thuật API",
+    "message": "API Specs",
     "description": "Custom footer link: API Specs"
   },
   "footer.roadmap": {
@@ -116,7 +116,7 @@
     "description": "Custom footer link: About Us"
   },
   "footer.goalTracker": {
-    "message": "Theo dõi mục tiêu",
+    "message": "Goal Tracker",
     "description": "Custom footer link: Goal Tracker"
   },
   "theme.ErrorPageContent.title": {
