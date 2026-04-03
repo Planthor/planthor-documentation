@@ -15,6 +15,10 @@
     "message": "Giới thiệu",
     "description": "Navbar item with label About"
   },
+  "item.label.Goal Tracker": {
+    "message": "Theo dõi mục tiêu",
+    "description": "Navbar item with label Goal Tracker"
+  },
   "item.label.GitHub": {
     "message": "GitHub",
     "description": "Navbar item with label GitHub"

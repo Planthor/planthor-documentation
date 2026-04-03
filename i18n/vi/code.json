@@ -1,4 +1,124 @@
 {
+  "homepage.title": {
+    "message": "Planthor – Dragging to Dream",
+    "description": "The landing page title"
+  },
+  "homepage.description": {
+    "message": "Trình theo dõi mục tiêu cấp công nghiệp dành cho các vận động viên không bỏ cuộc. Xây dựng vì sự kiên trì của cộng đồng D2D.",
+    "description": "The landing page meta description"
+  },
+  "nav.documentation": {
+    "message": "Tài liệu",
+    "description": "Landing page nav: Documentation link"
+  },
+  "nav.about": {
+    "message": "Giới thiệu",
+    "description": "Landing page nav: About link"
+  },
+  "nav.github": {
+    "message": "GitHub",
+    "description": "Landing page nav: GitHub link"
+  },
+  "nav.getStarted": {
+    "message": "Bắt đầu",
+    "description": "Landing page nav: Get Started CTA button"
+  },
+  "homepage.hero.title": {
+    "message": "DRAGGING TO DREAM",
+    "description": "Landing page hero heading"
+  },
+  "homepage.hero.subtitle": {
+    "message": "Trình theo dõi mục tiêu cấp công nghiệp dành cho những vận động viên không bao giờ bỏ cuộc. Được xây dựng vì sự kiên trì của cộng đồng D2D.",
+    "description": "Landing page hero subtitle"
+  },
+  "homepage.hero.launchApp": {
+    "message": "Khởi chạy ứng dụng",
+    "description": "Landing page hero: Launch App button"
+  },
+  "homepage.hero.readDocs": {
+    "message": "Đọc tài liệu →",
+    "description": "Landing page hero: Read the Docs link"
+  },
+  "homepage.features.title": {
+    "message": "Mục tiêu cốt lõi",
+    "description": "Landing page features section heading"
+  },
+  "homepage.features.subtitle": {
+    "message": "Được thiết kế để phát triển thể thao và sự kiên trì của cộng đồng.",
+    "description": "Landing page features section subtitle"
+  },
+  "homepage.features.goal1.title": {
+    "message": "Theo dõi chính xác",
+    "description": "Feature card 1 title"
+  },
+  "homepage.features.goal1.description": {
+    "message": "Quản lý kế hoạch chạy với độ chính xác công nghiệp. Mỗi buổi tập đều hướng tới mục tiêu cuối cùng của bạn.",
+    "description": "Feature card 1 description"
+  },
+  "homepage.features.goal2.title": {
+    "message": "Đồng bộ liền mạch",
+    "description": "Feature card 2 title"
+  },
+  "homepage.features.goal2.description": {
+    "message": "Tự động đồng bộ tiến trình thể thao từ Strava để duy trì một nguồn dữ liệu duy nhất cho mục tiêu của bạn.",
+    "description": "Feature card 2 description"
+  },
+  "homepage.features.goal3.title": {
+    "message": "Mạng xã hội",
+    "description": "Feature card 3 title"
+  },
+  "homepage.features.goal3.description": {
+    "message": "Kết nối với cộng đồng D2D. Chia sẻ thành tích và nuôi dưỡng tư duy tiến bộ tập thể.",
+    "description": "Feature card 3 description"
+  },
+  "homepage.features.goal4.title": {
+    "message": "Nền tảng mở",
+    "description": "Feature card 4 title"
+  },
+  "homepage.features.goal4.description": {
+    "message": "Được xây dựng trên các ngăn xếp công nghệ hiệu quả. Minh bạch, mã nguồn mở và sẵn sàng nhận đóng góp từ bạn.",
+    "description": "Feature card 4 description"
+  },
+  "homepage.community.title": {
+    "message": "Hành trình D2D",
+    "description": "Community section heading"
+  },
+  "homepage.community.text": {
+    "message": "Planthor không chỉ là một công cụ; đó là nền tảng cấu trúc cho cộng đồng \"Dragging to Dream\". Chúng tôi ưu tiên hiệu quả, giải pháp thực tế và các phương pháp tốt nhất theo tiêu chuẩn công nghiệp.",
+    "description": "Community section body text"
+  },
+  "homepage.community.cta": {
+    "message": "Khám phá trường hợp sử dụng",
+    "description": "Community section CTA button"
+  },
+  "footer.documentation": {
+    "message": "Tài liệu",
+    "description": "Custom footer column: Documentation"
+  },
+  "footer.getStarted": {
+    "message": "Bắt đầu",
+    "description": "Custom footer link: Getting Started"
+  },
+  "footer.apiSpecs": {
+    "message": "Thông số kỹ thuật API",
+    "description": "Custom footer link: API Specs"
+  },
+  "footer.roadmap": {
+    "message": "Lộ trình",
+    "description": "Custom footer link: Roadmap"
+  },
+  "footer.community": {
+    "message": "Cộng đồng",
+    "description": "Custom footer column: Community"
+  },
+  "footer.about": {
+    "message": "Giới thiệu",
+    "description": "Custom footer link: About Us"
+  },
+  "footer.goalTracker": {
+    "message": "Theo dõi mục tiêu",
+    "description": "Custom footer link: Goal Tracker"
+  },
   "theme.ErrorPageContent.title": {
     "message": "Trang này đã gặp lỗi.",
     "description": "The title of the fallback page when the page crashed"
