@@ -10,21 +10,21 @@ sidebar_position: 7
 @startuml
 left to right direction
 
-actor User as User
+actor "Người dùng" as User
 
-rectangle "Planthor Web App" {
-  (View Home Page) as ViewHomePage
-  (Sign in) as SignIn
-  (Remember me) as RememberMe
-  (Sign in with Facebook) as SignInWithFacebook
-  (Forgot your password) as ForgotYourPassword
-  (Manage My Goals) as ManageMyGoals
-  (View My Goals) as ViewMyGoals
-  (Create My Goal) as CreateMyGoal
-  (Update My Goal) as UpdateMyGoal
-  (Remove My Goal) as RemoveMyGoal
-  (View People Top 3/All Goals in Feed) as ViewPeopleGoalsInFeed
-  (Like People Goals in Feed) as LikePeopleGoalsInFeed
+rectangle "Ứng dụng Web Planthor" {
+  (Xem Trang chủ) as ViewHomePage
+  (Đăng nhập) as SignIn
+  (Ghi nhớ tôi) as RememberMe
+  (Đăng nhập bằng Facebook) as SignInWithFacebook
+  (Quên mật khẩu) as ForgotYourPassword
+  (Quản lý Mục tiêu) as ManageMyGoals
+  (Xem Mục tiêu) as ViewMyGoals
+  (Tạo Mục tiêu) as CreateMyGoal
+  (Cập nhật Mục tiêu) as UpdateMyGoal
+  (Xóa Mục tiêu) as RemoveMyGoal
+  (Xem Top 3/Tất cả Mục tiêu trong Feed) as ViewPeopleGoalsInFeed
+  (Thích Mục tiêu trong Feed) as LikePeopleGoalsInFeed
 }
 
 User --> SignIn
