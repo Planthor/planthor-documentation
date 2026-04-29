@@ -62,7 +62,7 @@
   top: 0;
   width: 100%;
   padding: 1.5rem 0;
-  z-index: 1000;
+  z-index: 1100;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   background-color: var(--lp-nav-bg);
@@ -123,19 +123,23 @@
   align-items: center;
   gap: 1.5rem;
   margin-left: 1rem;
-  z-index: 1001;
+  z-index: 1101;
+  position: relative;
+  isolation: isolate;
   pointer-events: auto;
 }
 
 /* Fix Docusaurus theme components in custom header */
 .lp-nav-controls :global(.navbar__search) {
   padding: 0;
+  pointer-events: auto;
 }
 
 .lp-nav-controls :global(.navbar__items) {
   padding: 0;
   display: flex;
   align-items: center;
+  pointer-events: auto;
 }
 
 /* Dark/light mode toggle button */
@@ -159,6 +163,9 @@
   gap: 0.5rem;
   border: 2px solid var(--lp-gray-100);
   padding: 0.25rem;
+  position: relative;
+  z-index: 1102;
+  pointer-events: auto;
 }
 
 .lp-locale-link {
@@ -169,6 +176,12 @@
   padding: 0.25rem 0.5rem;
   opacity: 0.4;
   transition: all 0.2s;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  user-select: none;
+  pointer-events: auto;
+  display: inline-block;
 }
 
 .lp-locale-link:hover {

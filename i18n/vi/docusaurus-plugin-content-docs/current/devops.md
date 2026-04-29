@@ -4,164 +4,207 @@ sidebar_label: DevOps
 sidebar_position: 11
 ---
 
+## 1. Cấu trúc Tổ chức (Planthor Monorepo)
 
-# Cân nhắc Hạ tầng (Chi phí tối ưu và Thực tiễn tốt nhất)
+Planthor áp dụng chiến lược đa kho lưu trữ (multi-repo) được tổ chức theo các miền chức năng. "Central Wiki" (tài liệu này) đóng vai trò là nguồn sự thật duy nhất cho tất cả các quyết định kiến trúc.
 
-Để tối ưu hóa tốc độ phát triển trong khi vẫn duy trì chi phí hạ tầng gần như bằng không trong giai đoạn phát triển và sandbox của Planthor, kiến trúc đã tận dụng tối đa các thành phần serverless và hạn mức Free Tier của Google Cloud.
+``` mermaid
+graph TD
+    %% Global Styling
+    classDef default fill:#1e1e1e,stroke:#333,color:#fff,font-family:sans-serif;
+    
+    %% Org Config Section
+    subgraph ORG_CONFIG ["CẤU HÌNH TỔ CHỨC"]
+        direction LR
+        config1[".github<br/><small>PR Templates, CodeOwners</small>"]
+        config2["planthor-documentation<br/><small>Kiến trúc & Wiki</small>"]
+    end
 
-### 1. Lưu trữ Ứng dụng & Tính toán
-* **Các API Backend:** Được lưu trữ trên **Google Cloud Run**.
-  * **Các dịch vụ:** `resourceAPI`, `githubAdapter`, `stravaAdapter`.
-  * **Tại sao:** Cloud Run xử lý tốt các đột biến webhook không thường xuyên và có thể giảm xuống mức 0. Việc duy trì trong hạn mức miễn phí 2 triệu yêu cầu/tháng giúp chi phí lưu trữ API ở mức 0$.
-* **Nhà cung cấp Danh tính (Keycloak):** Được lưu trữ trên **Google Compute Engine**.
-  * **Cấu hình:** 1 máy ảo `e2-micro` triển khai tại vùng đủ điều kiện miễn phí (`us-central1`, `us-east1`, hoặc `us-west1`).
-  * **Tại sao:** Keycloak là một ứng dụng Java nặng đòi hỏi các phiên làm việc có trạng thái và gặp vấn đề về độ trễ khởi động lạnh (cold-start) trên các container serverless. Việc chạy trên VM miễn phí giúp tránh các vấn đề này trong khi vẫn giữ chi phí tính toán ở mức 0$.
+    %% Frontend Section
+    subgraph FRONTEND ["FRONTEND"]
+        direction LR
+        fe1["PlanthorWebApp<br/><small>Svelte • TypeScript</small>"]
+        fe2["planthor-mobile<br/><small>Flutter • Dart</small>"]
+    end
 
-### 2. Cơ sở dữ liệu
-* **Dữ liệu Danh tính & Phiên làm việc:** **Google Cloud SQL cho PostgreSQL**.
-  * **Cấu hình:** `db-f1-micro` (vCPU dùng chung, 0.6 GB RAM) với ~10 GB Zonal SSD.
-  * **Thiết lập:** Single-zone (Không có tính sẵn sàng cao/Failover) để tránh nhân đôi chi phí.
-* **Tài nguyên Ứng dụng:** **MongoDB Atlas** (Hạn mức miễn phí).
-  * **Cấu hình:** M0 Sandbox (RAM dùng chung, 512 MB đến 5 GB lưu trữ).
-  * **Tại sao:** Cung cấp một cơ sở dữ liệu NoSQL được quản lý hoàn toàn cho các schema mục tiêu/tài nguyên linh hoạt với chi phí 0$.
-* **Chiến lược Tối ưu chi phí:** Một công việc định kỳ Cloud Scheduler có thể được triển khai để tự động dừng cơ sở dữ liệu Cloud SQL trong giờ nghỉ để tiết kiệm chi phí tính toán.
+    %% Backend Section
+    subgraph BACKEND ["BACKEND"]
+        be1["PlanthorWebApi<br/><small>.NET 10 • Clean Arch</small>"]
+    end
 
-### 3. Lưu trữ Container & CI/CD
-* **Registry:** **GitHub Container Registry (GHCR)**.
-  * **Tại sao:** Thay thế cho Google Artifact Registry. Bằng cách để các Docker image ở chế độ công khai cho dự án mã nguồn mở này, chi phí lưu trữ và băng thông giảm xuống mức 0$. Cloud Run sẽ kéo các image đã biên dịch trực tiếp từ GHCR.
+    %% Platform Section
+    subgraph PLATFORM ["NỀN TẢNG"]
+        direction LR
+        p1["planthor-idp<br/><small>Cấu hình Docker Keycloak</small>"]
+        p2["planthor-infra<br/><small>Terraform IaC</small>"]
+        p3["planthor-local-dev<br/><small>Docker Compose Stack</small>"]
+    end
 
-### 4. Mạng & Bảo mật
-* **Proxy DNS & Bảo vệ DDoS:** **Cloudflare** (Gói miễn phí).
-  * **Định tuyến:** Tên miền tùy chỉnh được định tuyến qua các nameserver của Cloudflare.
-  * **Keycloak Entry:** Được proxy đến IP tĩnh bên ngoài của máy ảo Compute Engine để cung cấp bảo vệ DDoS cấp doanh nghiệp và ngăn chặn các cuộc tấn công brute-force vào máy ảo micro.
-* **Khóa tường lửa VPC:**
-  * **Quy tắc 1 (Lưu lượng Web):** Tất cả lưu lượng internet công cộng đến VM Keycloak trên cổng 80 và 443 đều bị từ chối. Ingress chỉ được cho phép rõ ràng từ các dải IPv4 đã công bố của Cloudflare bằng cách sử dụng thẻ mạng (`keycloak-server`).
-  * **Quy tắc 2 (Truy cập SSH):** SSH công cộng (`tcp:22` từ `0.0.0.0/0`) bị từ chối. Ingress SSH bị giới hạn nghiêm ngặt trong dải IP Google Identity-Aware Proxy (IAP) (`35.235.240.0/20`).
-* **Quản lý Thông tin xác thực:** **Google Secret Manager** tiêm mật khẩu cơ sở dữ liệu, khóa API GitHub/Strava và thông tin xác thực quản trị Keycloak một cách an toàn vào Cloud Run và máy ảo khi chạy.
+    %% Styling Classes
+    style ORG_CONFIG fill:#333,stroke:#666,color:#fff
+    style FRONTEND fill:#064e3b,stroke:#10b981,color:#fff
+    style BACKEND fill:#003366,stroke:#3399ff,color:#fff
+    style PLATFORM fill:#4c1d95,stroke:#8b5cf6,color:#fff
 
+    class config1,config2,fe1,fe2,be1,p1,p2,p3 default;
+```
 
-## 5. Cấu trúc Tổ chức
+---
+
+## 2. Hạ tầng Sản xuất (Các Giai đoạn Mở rộng)
+
+Để cân bằng giữa chi phí và sự ổn định, Planthor tuân theo chiến lược mở rộng nhiều giai đoạn. Chúng tôi bắt đầu với **Giai đoạn Seed** để đạt được môi trường sản xuất chỉ với ~$14/tháng.
+
+### Giai đoạn 1: Seed Phase (Hiện tại)
+*   **Tính toán:** Một VM `e2-small` duy nhất (2GB RAM) chạy **Docker Compose**.
+*   **Auth Stack:** Keycloak + Postgres + Nginx (tất cả trong Docker).
+*   **Logic Stack:** **Cloud Run** (.NET 10) tự động giảm về 0 khi không sử dụng.
+*   **Data Stack:** **Firestore** (NoSQL Serverless).
+
+### Giai đoạn 2: Growth Phase (Tương lai)
+*   **Cơ sở dữ liệu:** Chuyển sang **Cloud SQL (PostgreSQL)** để quản lý sao lưu tự động.
+*   **Bộ nhớ đệm:** Giới thiệu **Cloud Memorystore (Redis)** để tối ưu hiệu suất phiên làm việc.
+
+---
+
+## 3. Sơ đồ Hạ tầng (Giai đoạn Seed)
 
 ```mermaid
-graph LR
-    subgraph Public_Internet [Internet Công cộng]
-        User((Vận động viên))
+flowchart TB
+    subgraph Users ["TRUY CẬP BÊN NGOÀI"]
+        User(["NGƯỜI DÙNG (MOBILE/WEB)"])
     end
 
-    subgraph Security_Layer [Bảo mật & DNS]
-        CF[Cloudflare Proxy]
-    end
-
-    subgraph GitHub_Ecosystem [GitHub]
-        Repo[Mã nguồn]
-        GHA[GitHub Actions]
-        GHCR[(GHCR.io <br/> Docker Images)]
-    end
-
-    subgraph GCP_Project [Google Cloud Platform - Tập trung Free Tier]
+    subgraph GCP ["GOOGLE CLOUD PLATFORM"]
         direction TB
-        CR[Planthor Backend <br/> Cloud Run]
-        CE[Planthor IDP <br/> Keycloak VM]
-        DB_SQL[(Planthor DB <br/> Cloud SQL PostgreSQL)]
-        DB_NOSQL[(Resource DB <br/> MongoDB Atlas)]
-        GSM[Secret Manager]
+
+        subgraph VM_HOST ["SEED AUTH VM (GIAI ĐOẠN 1)"]
+            direction TB
+            subgraph Docker_Network ["Mạng Nội bộ Docker"]
+                Nginx["Nginx + SSL"]
+                KC["Keycloak Container"]
+                DB_LOCAL[("Postgres Container")]
+                Nginx --- KC --- DB_LOCAL
+            end
+        end
+
+        subgraph APP_TIER ["TẦNG LOGIC SERVERLESS"]
+            CR["CLOUD RUN (.NET 10)"]
+            FB["FIREBASE HOSTING"]
+        end
+
+        subgraph DATA_TIER ["TẦNG DỮ LIỆU ĐƯỢC QUẢN LÝ"]
+            direction LR
+            FS[("FIRESTORE\nNOSQL")]
+            GCS[("CLOUD STORAGE")]
+        end
     end
 
-    %% Interactions
-    User --> CF
-    CF -- API Requests --> CR
-    CF -- Auth/Login --> CE
+    %% Connections
+    User -->|HTTPS| FB
+    User -->|HTTPS| Nginx
+    User -->|HTTPS| CR
     
-    Repo --> GHA
-    GHA -- Build & Push --> GHCR
-    GHA -- Deploy Trigger --> CR
-    
-    CR -- Pull Image --> GHCR
-    CR -- Data --> DB_NOSQL
-    CE -- Session Data --> DB_SQL
-    CR -- Auth --> CE
-    GSM -.-> CR
-    GSM -.-> CE
-    
+    CR <-->|OIDC| KC
+    CR --> FS
+    CR --> GCS
+
     %% Styling
-    classDef gcp fill:#e8f0fe,stroke:#4285f4,stroke-width:2px;
-    classDef github fill:#f6f8fa,stroke:#24292f,stroke-width:2px;
-    classDef security fill:#fff4dd,stroke:#d4a017,stroke-width:2px;
-    
-    class CR,CE,DB_SQL,DB_NOSQL,GSM gcp;
-    class Repo,GHA,GHCR github;
-    class CF security;
+    style GCP fill:#f4f4f4,stroke:#003366,stroke-width:2px
+    style VM_HOST fill:#001a33,color:#fff,stroke:#3399ff
+    style CR fill:#003366,color:#fff,stroke:#3399ff
+    style DB_LOCAL fill:#3399ff,color:#000
+    style FS fill:#001a33,color:#fff,stroke:#3399ff
 ```
+
+---
+
+## 4. Ước tính Chi phí Hàng tháng
+
+| GIAI ĐOẠN | CÁC THÀNH PHẦN | CHI PHÍ ƯỚC TÍNH |
+| :--- | :--- | :--- |
+| **GIAI ĐOẠN 1 (Seed)** | VM `e2-small` + Cloud Run + Firestore | **~$14.00** |
+| **GIAI ĐOẠN 2 (Growth)** | VM + Cloud SQL + Cloud Run | **~$25.00** |
+| **GIAI ĐOẠN 3 (Scale)** | HA Cluster + Load Balancer + WAF | **$60.00+** |
+
+---
+
+## 5. Tối ưu hóa Docker (e2-small)
+
+Vì máy ảo `e2-small` chỉ có **2GB RAM**, các container Docker phải được giới hạn nghiêm ngặt.
+
+### Giới hạn Tài nguyên
+Trong `docker-compose.yml`, luôn xác định giới hạn để ngăn một container làm treo toàn bộ VM:
+```yaml
+services:
+  keycloak:
+    deploy:
+      resources:
+        limits:
+          memory: 1200M
+        reservations:
+          memory: 800M
+  postgres:
+    deploy:
+      resources:
+        limits:
+          memory: 400M
+```
+
+### Tối ưu hóa Nhật ký (Logging)
+Để ngăn chặn việc đầy ổ cứng trên VM nhỏ, hãy sử dụng driver `json-file` với tính năng xoay vòng (rotation):
+```yaml
+logging:
+  driver: "json-file"
+  options:
+    max-size: "10m"
+    max-file: "3"
+```
+
+---
 
 ## 6. Luồng CI/CD & Triển khai
 
 ```mermaid
 graph TD
-    %% Entities
-    Dev([Developer])
-    Registry[GHCR]
-    PlanthorDB[(Planthor DB SQL)]
-    ResourceDB[(Resource DB Mongo)]
-    PlanthorIDP[(Planthor IDP VM)]
-
-    %% GitHub Actions
-    subgraph GitHub [GitHub Actions - App Repo]
-        subgraph CI [CI Pipeline - On PR]
-            PR[Create PR] --> RestoreBuild[Restore & Build Go Apps]
-            RestoreBuild --> Tests[Run Ephemeral Tests/Lint]
-        end
-        
-        subgraph CD [CD Pipeline - On Merge]
-            Tests -->|Merge to Main| BuildImage[Build Docker Image]
-        end
-    end
-
-    %% GCP Environment
-    subgraph GCP Environment
-        PlanthorBackend{Planthor Backend <br/> Cloud Run}
-        VPC[Serverless VPC Access / Direct Egress]
-    end
-
-    %% Connections
-    BuildImage -->|1. Push Public Image| Registry
-    BuildImage -->|2. Trigger Deploy| PlanthorBackend
-    Registry -.->|3. Pulls Image| PlanthorBackend
-    PlanthorBackend -->|4. Routes Traffic securely via| VPC
-    VPC ===|5. Connects to| PlanthorDB
-    VPC ===|6. Connects to| ResourceDB
-    PlanthorIDP ===|Connects to| PlanthorDB
+    Dev([Developer]) -->|Merge to Main| GHA[GitHub Actions]
     
-    %% Styling
-    classDef gcp fill:#e8f0fe,stroke:#4285f4,stroke-width:2px,color:#000;
-    classDef git fill:#f6f8fa,stroke:#24292f,stroke-width:2px,color:#000;
-    class PlanthorDB,PlanthorBackend,VPC,PlanthorIDP,ResourceDB gcp;
-    class CI,CD,GitHub,Registry git;
+    subgraph GitHub_Actions [CI/CD Pipeline]
+        Build[Build Docker Image]
+        Test[Unit & Integration Tests]
+        Push[Push to GHCR.io]
+        Deploy[Trigger Cloud Run Deploy]
+        Build --> Test --> Push --> Deploy
+    end
+
+    Deploy --> CR[Cloud Run]
+    GHCR[(GHCR.io)] <.-> CR
 ```
 
-## 8. Luồng Yêu cầu
+---
+
+## 7. Giám sát & Sức khỏe
+
+1.  **Kiểm tra Liveness:** `https://auth.planthor.com/health/live` (Được giám sát bởi UptimeRobot).
+2.  **Kiểm tra Tài nguyên:** SSH vào VM và chạy `docker stats` hàng tuần.
+3.  **Nhật ký:** Cài đặt **GCP Ops Agent** trên VM để truyền nhật ký về Cloud Logging.
+
+---
+
+## 8. Luồng Yêu cầu (Đầu-cuối)
 
 ```mermaid
 sequenceDiagram
-    participant U as Vận động viên (Mobile/Web)
-    participant CF as Cloudflare (Lớp chắn DDoS)
-    participant BE as Planthor Backend
-    participant IDP as Planthor IDP
-    participant DB as Planthor DB (SQL)
-    participant MDB as Resource DB (Mongo)
+    participant U as Người dùng
+    participant CR as Cloud Run (API)
+    participant KC as Keycloak (VM)
+    participant FS as Firestore
 
-    Note over U, MDB: 1. Giai đoạn Xác thực
-    U->>CF: Mở Planthor / Đăng nhập
-    CF->>IDP: Chuyển tiếp đến UI Đăng nhập
-    IDP->>DB: Kiểm tra thông tin xác thực người dùng
-    DB-->>IDP: Người dùng hợp lệ
-    IDP-->>U: Trả về JWT (Token)
-
-    Note over U, MDB: 2. Giai đoạn Yêu cầu Dữ liệu
-    U->>CF: GET /api/goals (kèm Token)
-    CF->>BE: Yêu cầu đã xác thực
-    BE->>IDP: Xác minh Token
-    IDP-->>BE: Token hợp lệ
-    BE->>MDB: Lấy tiến độ mục tiêu
-    MDB-->>BE: Dữ liệu mục tiêu
-    BE-->>U: Trả về JSON cho App UI
+    U->>KC: 1. Yêu cầu Đăng nhập
+    KC-->>U: 2. Identity Token (JWT)
+    U->>CR: 3. Lấy Mục tiêu (với JWT)
+    CR->>KC: 4. Xác minh Token
+    CR->>FS: 5. Truy vấn Dữ liệu
+    FS-->>CR: 6. Dữ liệu Tài nguyên
+    CR-->>U: 7. Phản hồi JSON
 ```

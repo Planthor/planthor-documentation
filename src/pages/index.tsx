@@ -3,12 +3,100 @@ import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import Translate, {translate} from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import SearchBar from '@theme/SearchBar';
 import {useColorMode} from '@docusaurus/theme-common';
+import SearchBar from '@theme/SearchBar';
 import Layout from '@theme/Layout';
 import '../css/landing.css';
 
 const SITE_URL = 'https://planthor.github.io/planthor-documentation';
+
+/**
+ * Build the URL for the given locale, preserving the current page path.
+ * Mirrors the logic Docusaurus uses internally in useAlternatePageUtils.
+ */
+function buildLocaleUrl(
+  currentPathname: string,
+  targetLocale: string,
+  defaultLocale: string,
+  baseUrl: string,
+  allLocales: readonly string[],
+): string {
+  // Strip any existing locale prefix from the pathname.
+  // e.g. /planthor-documentation/vi/docs/intro -> /docs/intro
+  let pathWithoutLocale = currentPathname;
+  for (const locale of allLocales) {
+    if (locale === defaultLocale) continue;
+    const localePrefix = `${baseUrl}${locale}/`;
+    if (currentPathname.startsWith(localePrefix)) {
+      pathWithoutLocale = `${baseUrl}${currentPathname.slice(localePrefix.length)}`;
+      break;
+    }
+    // Also handle without trailing slash (e.g. /planthor-documentation/vi)
+    const localePrefixNoSlash = `${baseUrl}${locale}`;
+    if (currentPathname === localePrefixNoSlash || currentPathname === localePrefixNoSlash + '/') {
+      pathWithoutLocale = baseUrl;
+      break;
+    }
+  }
+
+  // Build target URL
+  if (targetLocale === defaultLocale) {
+    return pathWithoutLocale || baseUrl;
+  }
+  // Ensure baseUrl ends with /
+  const base = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+  const pathSuffix = pathWithoutLocale.startsWith(base)
+    ? pathWithoutLocale.slice(base.length)
+    : '';
+  return `${base}${targetLocale}/${pathSuffix}`;
+}
+
+// Locale switcher link — renders as <a> for alternate locales, <span> for the active one
+function LocaleLink({
+  locale,
+  isCurrentLocale,
+  defaultLocale,
+  baseUrl,
+  allLocales,
+}: {
+  locale: string;
+  isCurrentLocale: boolean;
+  defaultLocale: string;
+  baseUrl: string;
+  allLocales: readonly string[];
+}) {
+  if (isCurrentLocale) {
+    return (
+      <span
+        className="lp-locale-link active"
+        aria-current="true"
+        style={{cursor: 'default', pointerEvents: 'none'}}
+      >
+        {locale.toUpperCase()}
+      </span>
+    );
+  }
+
+  // Build href on the client; fall back to root locale path for SSR
+  const href =
+    typeof window !== 'undefined'
+      ? buildLocaleUrl(window.location.pathname, locale, defaultLocale, baseUrl, allLocales)
+      : locale === defaultLocale
+        ? baseUrl
+        : `${baseUrl}${locale}/`;
+
+  return (
+    <a
+      href={href}
+      className="lp-locale-link"
+      hrefLang={locale}
+      rel="alternate"
+    >
+      {locale.toUpperCase()}
+    </a>
+  );
+}
+
 
 function LandingPageContent() {
   const {siteConfig, i18n} = useDocusaurusContext();
@@ -60,17 +148,15 @@ function LandingPageContent() {
               <div className="lp-locale-switcher">
                 {i18n.locales.map((locale) => {
                   const isCurrentLocale = i18n.currentLocale === locale;
-                  // Use absolute paths to be safe
-                  const {url, baseUrl} = siteConfig;
-                  const targetPath = locale === i18n.defaultLocale ? baseUrl : `${baseUrl}${locale}/`;
                   return (
-                    <a
+                    <LocaleLink
                       key={locale}
-                      href={targetPath}
-                      className={isCurrentLocale ? 'lp-locale-link active' : 'lp-locale-link'}
-                    >
-                      {locale.toUpperCase()}
-                    </a>
+                      locale={locale}
+                      isCurrentLocale={isCurrentLocale}
+                      defaultLocale={i18n.defaultLocale}
+                      baseUrl={siteConfig.baseUrl}
+                      allLocales={i18n.locales}
+                    />
                   );
                 })}
               </div>
