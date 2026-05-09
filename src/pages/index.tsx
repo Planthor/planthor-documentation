@@ -1,14 +1,12 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-import Translate, {translate} from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import {useColorMode} from '@docusaurus/theme-common';
+import { useColorMode } from '@docusaurus/theme-common';
 import SearchBar from '@theme/SearchBar';
 import Layout from '@theme/Layout';
 import '../css/landing.css';
-
-const SITE_URL = 'https://planthor.github.io/planthor-documentation';
 
 /**
  * Build the URL for the given locale, preserving the current page path.
@@ -70,7 +68,7 @@ function LocaleLink({
       <span
         className="lp-locale-link active"
         aria-current="true"
-        style={{cursor: 'default', pointerEvents: 'none'}}
+        style={{ cursor: 'default', pointerEvents: 'none' }}
       >
         {locale.toUpperCase()}
       </span>
@@ -99,10 +97,13 @@ function LocaleLink({
 
 
 function LandingPageContent() {
-  const {siteConfig, i18n} = useDocusaurusContext();
-  const {colorMode, setColorMode} = useColorMode();
+  const { siteConfig, i18n } = useDocusaurusContext();
+  const { colorMode, setColorMode } = useColorMode();
 
   useEffect(() => {
+    // Add class to body to allow hiding the default navbar via CSS
+    document.body.classList.add('landing-page-active');
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -112,7 +113,11 @@ function LandingPageContent() {
     }, { threshold: 0.1 });
 
     document.querySelectorAll('.lp-observe').forEach(el => observer.observe(el));
-    return () => observer.disconnect();
+
+    return () => {
+      document.body.classList.remove('landing-page-active');
+      observer.disconnect();
+    };
   }, []);
 
   return (
@@ -134,7 +139,7 @@ function LandingPageContent() {
             <Link to="https://github.com/planthor" className="lp-nav-link">
               <Translate id="nav.github">GitHub</Translate>
             </Link>
-            
+
             <div className="lp-nav-controls">
               <SearchBar />
               <button
@@ -177,7 +182,7 @@ function LandingPageContent() {
           </h1>
           <p className="lp-hero-subtitle">
             <Translate id="homepage.hero.subtitle">
-              The industrial-grade goal tracker for athletes who refuse to quit. 
+              The industrial-grade goal tracker for athletes who refuse to quit.
               Built for the persistence of the D2D community.
             </Translate>
           </p>
@@ -203,7 +208,7 @@ function LandingPageContent() {
               <Translate id="homepage.features.subtitle">Engineered for athletic growth and community persistence.</Translate>
             </p>
           </div>
-          
+
           <div className="lp-grid">
             <div className="lp-card lp-observe">
               <h3 className="lp-card-title">
@@ -257,7 +262,7 @@ function LandingPageContent() {
           </h2>
           <p className="lp-community-text">
             <Translate id="homepage.community.text">
-              Planthor is more than a tool; it's a structural foundation for the "Dragging to Dream" community. 
+              Planthor is more than a tool; it's a structural foundation for the "Dragging to Dream" community.
               We prioritize efficiency, practical solutions, and industrial-standard best practices.
             </Translate>
           </p>
@@ -309,8 +314,8 @@ export default function Home(): React.JSX.Element {
     <Layout
       noFooter
       wrapperClassName="custom-landing-page"
-      title={translate({message: 'Planthor – Dragging to Dream', id: 'homepage.title'})}
-      description={translate({message: 'Industrial-grade goal tracker for athletes who refuse to quit. Built for the persistence of the D2D community.', id: 'homepage.description'})}>
+      title={translate({ message: 'Planthor – Dragging to Dream', id: 'homepage.title' })}
+      description={translate({ message: 'Industrial-grade goal tracker for athletes who refuse to quit. Built for the persistence of the D2D community.', id: 'homepage.description' })}>
       <LandingPageContent />
     </Layout>
   );

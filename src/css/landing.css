@@ -37,22 +37,13 @@
 }
 
 /* Hide standard Docusaurus Navbar on Landing Page */
-:global(.custom-landing-page) ~ :global(.navbar) {
+:global(body.landing-page-active) :global(.navbar) {
   display: none !important;
 }
 
-/* If the navbar comes before the wrapper in the DOM */
-:global(.navbar):has(+ :global(.custom-landing-page)) {
-  display: none !important;
-}
-
-/* Broadest possible hiding for standard navbar on home page */
-:global(.navigation-with-keyboard:has(.custom-landing-page)) :global(.navbar) {
-  display: none !important;
-}
-
-/* Fallback for older browsers: hide navbar when custom-landing-page is anywhere */
-:global(body:has(.custom-landing-page)) :global(.navbar) {
+/* Fallback/Legacy hiding logic */
+:global(.custom-landing-page) ~ :global(.navbar),
+:global(.navbar):has(~ :global(.custom-landing-page)) {
   display: none !important;
 }
 
