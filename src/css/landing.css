@@ -37,13 +37,13 @@
 }
 
 /* Hide standard Docusaurus Navbar on Landing Page */
-:global(body.landing-page-active) :global(.navbar) {
+body.landing-page-active .navbar {
   display: none !important;
 }
 
 /* Fallback/Legacy hiding logic */
-:global(.custom-landing-page) ~ :global(.navbar),
-:global(.navbar):has(~ :global(.custom-landing-page)) {
+.custom-landing-page ~ .navbar,
+.navbar:has(~ .custom-landing-page) {
   display: none !important;
 }
 
@@ -200,6 +200,26 @@
   transform: translateY(-2px);
 }
 
+/* Hamburger menu button */
+.lp-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 1103;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.lp-hamburger span {
+  width: 24px;
+  height: 2px;
+  background-color: var(--lp-black);
+  transition: all 0.3s;
+  display: block;
+}
+
 /* Hero Section */
 .lp-hero {
   height: 100vh;
@@ -208,7 +228,7 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 0 2rem;
+  padding: 80px 2rem 0;
   background-color: var(--lp-white);
   position: relative;
   overflow: hidden;
@@ -396,9 +416,45 @@
 
 /* Mobile Adjustments */
 @media screen and (max-width: 768px) {
-  .lp-nav-links {
-    display: none;
+  .lp-hamburger {
+    display: flex;
   }
+
+  .lp-nav-container {
+    flex-wrap: wrap;
+  }
+
+  .lp-nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--lp-nav-bg);
+    border-bottom: 2px solid var(--lp-gray-100);
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+  }
+
+  .lp-nav-links.open {
+    max-height: 500px;
+  }
+
+  .lp-nav-links .lp-nav-link {
+    display: block;
+    margin: 0;
+  }
+
+  .lp-nav-controls {
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    margin-left: 0;
+  }
+
   .lp-section {
     padding: 6rem 1.5rem;
   }

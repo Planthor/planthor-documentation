@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import Translate, { translate } from '@docusaurus/Translate';
@@ -99,6 +99,7 @@ function LocaleLink({
 function LandingPageContent() {
   const { siteConfig, i18n } = useDocusaurusContext();
   const { colorMode, setColorMode } = useColorMode();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     // Add class to body to allow hiding the default navbar via CSS
@@ -114,9 +115,15 @@ function LandingPageContent() {
 
     document.querySelectorAll('.lp-observe').forEach(el => observer.observe(el));
 
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false);
+    };
+    window.addEventListener('keydown', handleEscape);
+
     return () => {
       document.body.classList.remove('landing-page-active');
       observer.disconnect();
+      window.removeEventListener('keydown', handleEscape);
     };
   }, []);
 
@@ -129,7 +136,17 @@ function LandingPageContent() {
             <img src={useBaseUrl('img/planthor-logo.png')} alt="Logo" />
             PLANTHOR
           </Link>
-          <div className="lp-nav-links">
+          <button
+            className="lp-hamburger"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle navigation menu"
+            aria-expanded={menuOpen}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <div className={`lp-nav-links ${menuOpen ? 'open' : ''}`}>
             <Link to="/docs/" className="lp-nav-link">
               <Translate id="nav.documentation">Documentation</Translate>
             </Link>
@@ -167,7 +184,11 @@ function LandingPageContent() {
               </div>
             </div>
 
-            <Link to="/docs/" className="lp-cta-button">
+            <Link
+              to="/docs/"
+              className="lp-cta-button"
+              onClick={() => setMenuOpen(false)}
+            >
               <Translate id="nav.getStarted">Get Started</Translate>
             </Link>
           </div>
