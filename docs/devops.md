@@ -181,6 +181,10 @@ graph TD
     GHCR[(GHCR.io)] <.-> CR
 ```
 
+See [Mobile Quality Status](mobile-quality-status.md) for the Flutter quality-gate status, SonarQube milestones, and security remediation plan.
+
+See [Backend Status](backend-status.md) for live backend issues, organization-project alignment, and delivery milestones.
+
 ---
 
 ## 7. Monitoring & Health

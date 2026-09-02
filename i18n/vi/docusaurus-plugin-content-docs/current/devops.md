@@ -181,6 +181,10 @@ graph TD
     GHCR[(GHCR.io)] <.-> CR
 ```
 
+Xem [Trạng thái Chất lượng Mobile](mobile-quality-status.md) để theo dõi trạng thái quality gate Flutter, các mốc SonarQube và kế hoạch khắc phục bảo mật.
+
+Xem [Trạng thái Backend](backend-status.md) để theo dõi issue backend, liên kết organization project và các mốc phân phối.
+
 ---
 
 ## 7. Giám sát & Sức khỏe
