@@ -59,7 +59,7 @@ graph TD
 *   **Tính toán:** Một VM `e2-small` duy nhất (2GB RAM) chạy **Docker Compose**.
 *   **Auth Stack:** Keycloak + Postgres + Nginx (tất cả trong Docker).
 *   **Logic Stack:** **Cloud Run** (.NET 10) tự động giảm về 0 khi không sử dụng.
-*   **Data Stack:** **Firestore** (NoSQL Serverless).
+*   **Data Stack:** **MongoDB Atlas** (NoSQL) + **Quartz PostgreSQL** (background jobs).
 
 ### Giai đoạn 2: Growth Phase (Tương lai)
 *   **Cơ sở dữ liệu:** Chuyển sang **Cloud SQL (PostgreSQL)** để quản lý sao lưu tự động.
@@ -95,7 +95,7 @@ flowchart TB
 
         subgraph DATA_TIER ["TẦNG DỮ LIỆU ĐƯỢC QUẢN LÝ"]
             direction LR
-            FS[("FIRESTORE\nNOSQL")]
+            FS[("MONGODB ATLAS\nNOSQL")]
             GCS[("CLOUD STORAGE")]
         end
     end
@@ -123,7 +123,7 @@ flowchart TB
 
 | GIAI ĐOẠN | CÁC THÀNH PHẦN | CHI PHÍ ƯỚC TÍNH |
 | :--- | :--- | :--- |
-| **GIAI ĐOẠN 1 (Seed)** | VM `e2-small` + Cloud Run + Firestore | **~$14.00** |
+| **GIAI ĐOẠN 1 (Seed)** | VM `e2-small` + Cloud Run + MongoDB Atlas | **~$14.00** |
 | **GIAI ĐOẠN 2 (Growth)** | VM + Cloud SQL + Cloud Run | **~$25.00** |
 | **GIAI ĐOẠN 3 (Scale)** | HA Cluster + Load Balancer + WAF | **$60.00+** |
 
@@ -172,13 +172,13 @@ graph TD
     subgraph GitHub_Actions [CI/CD Pipeline]
         Build[Build Docker Image]
         Test[Unit & Integration Tests]
-        Push[Push to GHCR.io]
+        Push[Push to Artifact Registry / GHCR]
         Deploy[Trigger Cloud Run Deploy]
         Build --> Test --> Push --> Deploy
     end
 
     Deploy --> CR[Cloud Run]
-    GHCR[(GHCR.io)] <.-> CR
+    GHCR[(Artifact Registry)] <.-> CR
 ```
 
 Xem [Trạng thái Chất lượng Mobile](mobile-quality-status.md) để theo dõi trạng thái quality gate Flutter, các mốc SonarQube và kế hoạch khắc phục bảo mật.
@@ -202,7 +202,7 @@ sequenceDiagram
     participant U as Người dùng
     participant CR as Cloud Run (API)
     participant KC as Keycloak (VM)
-    participant FS as Firestore
+    participant FS as MongoDB Atlas
 
     U->>KC: 1. Yêu cầu Đăng nhập
     KC-->>U: 2. Identity Token (JWT)

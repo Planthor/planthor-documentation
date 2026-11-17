@@ -59,7 +59,7 @@ To balance cost and stability, Planthor follows a multi-phase scaling strategy. 
 *   **Compute:** Single `e2-small` VM (2GB RAM) running **Docker Compose**.
 *   **Auth Stack:** Keycloak + Postgres + Nginx (all in Docker).
 *   **Logic Stack:** **Cloud Run** (.NET 10) scaling to zero.
-*   **Data Stack:** **Firestore** (Serverless NoSQL).
+*   **Data Stack:** **MongoDB Atlas** (NoSQL) + **Quartz PostgreSQL** (background jobs).
 
 ### Phase 2: Growth Phase (Future)
 *   **Database:** Migrate to **Cloud SQL (PostgreSQL)** for managed backups.
@@ -95,7 +95,7 @@ flowchart TB
 
         subgraph DATA_TIER ["MANAGED DATA TIER"]
             direction LR
-            FS[("FIRESTORE\nNOSQL")]
+            FS[("MONGODB ATLAS\nNOSQL")]
             GCS[("CLOUD STORAGE")]
         end
     end
@@ -123,7 +123,7 @@ flowchart TB
 
 | PHASE | COMPONENTS | MONTHLY COST |
 | :--- | :--- | :--- |
-| **PHASE 1 (Seed)** | `e2-small` VM + Cloud Run + Firestore | **~$14.00** |
+| **PHASE 1 (Seed)** | `e2-small` VM + Cloud Run + MongoDB Atlas | **~$14.00** |
 | **PHASE 2 (Growth)** | VM + Cloud SQL + Cloud Run | **~$25.00** |
 | **PHASE 3 (Scale)** | HA Cluster + Load Balancer + WAF | **$60.00+** |
 
@@ -172,13 +172,13 @@ graph TD
     subgraph GitHub_Actions [CI/CD Pipeline]
         Build[Build Docker Image]
         Test[Unit & Integration Tests]
-        Push[Push to GHCR.io]
+        Push[Push to Artifact Registry / GHCR]
         Deploy[Trigger Cloud Run Deploy]
         Build --> Test --> Push --> Deploy
     end
 
     Deploy --> CR[Cloud Run]
-    GHCR[(GHCR.io)] <.-> CR
+    GHCR[(Artifact Registry)] <.-> CR
 ```
 
 See [Mobile Quality Status](mobile-quality-status.md) for the Flutter quality-gate status, SonarQube milestones, and security remediation plan.
@@ -202,7 +202,7 @@ sequenceDiagram
     participant U as User
     participant CR as Cloud Run (API)
     participant KC as Keycloak (VM)
-    participant FS as Firestore
+    participant FS as MongoDB Atlas
 
     U->>KC: 1. Login Request
     KC-->>U: 2. Identity Token (JWT)

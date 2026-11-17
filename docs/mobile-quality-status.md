@@ -1,13 +1,13 @@
 ---
 title: Mobile Quality Status
 sidebar_label: Mobile Quality Status
-sidebar_position: 12
+sidebar_position: 14
 description: Status and milestones for Flutter mobile quality, SonarQube Cloud, and security remediation.
 ---
 
 # Mobile Quality Status
 
-**Last reviewed:** 2026-09-02  
+**Last reviewed:** 2026-11-17  
 **Repository:** `planthor-ios-application`  
 **Scope:** Flutter quality checks, code coverage, SonarQube Cloud, and mobile transport security.
 
@@ -15,12 +15,12 @@ description: Status and milestones for Flutter mobile quality, SonarQube Cloud, 
 
 | Area | Status | Notes |
 | --- | --- | --- |
-| Flutter quality checks | Active | Formatting, static analysis, tests, and LCOV coverage run in GitHub Actions. |
-| SonarQube Cloud analysis | Active | Runs after the Flutter quality job for pull requests and protected-branch pushes. |
+| Flutter quality checks | Active (passing) | Formatting, static analysis, tests, and LCOV coverage pass on `main` (`e0f497c`). |
+| SonarQube Cloud analysis | Failing on `main` | `SonarQube analysis` job fails in `sonar-scanner` (exit code 3) on recent `main` runs, skipping iOS/Android build verification. |
 | Coverage hand-off | Active | The SonarQube job consumes `coverage/lcov.info` from the quality-job artifact. |
-| Quality gate | Remediation in progress | The first `main` analysis failed because two HTTPS clients accepted untrusted certificates. |
-| TLS remediation | Ready for merge | The `fix/sonarqube-quality-gate` branch removes both unsafe certificate-validation bypasses. |
-| Branch protection | Pending | Require **SonarQube analysis** after a successful post-fix analysis. |
+| TLS remediation | Complete | PR `#17` (`fix/sonarqube-quality-gate`, `81e5333`) merged to `main`, removing unsafe certificate-validation bypasses. |
+| Recent `main` features | Shipped | PR `#18` (`dev`/`prod` profile split), PR `#19` (docs/skills), and `e0f497c` (auto-sync profile). |
+| Branch protection | Pending | Require **SonarQube analysis** after the `sonar-scanner` CI failure is resolved. |
 
 ## Milestones
 
@@ -29,8 +29,8 @@ description: Status and milestones for Flutter mobile quality, SonarQube Cloud, 
 | 1. Establish Flutter quality baseline | Complete | CI runs formatter, analyzer, tests, and coverage. |
 | 2. Connect SonarQube Cloud | Complete | Project `Planthor_planthor-ios-application` receives LCOV analysis using `SONAR_TOKEN`. |
 | 3. Analyze protected-branch pushes | Complete | `main` pushes run quality checks followed by SonarQube analysis. |
-| 4. Remediate critical TLS findings | In progress | Merge `fix/sonarqube-quality-gate`; all HTTPS calls use normal certificate validation. |
-| 5. Confirm green quality gate | Next | Push or merge the fix and confirm the SonarQube quality gate passes. |
+| 4. Remediate critical TLS findings | Complete | Merged via PR `#17`; HTTPS calls use normal certificate validation. |
+| 5. Confirm green quality gate | In progress | Fix `sonar-scanner` exit code 3 on `main` and confirm the SonarQube quality gate passes. |
 | 6. Enforce merge protection | Next | Add **SonarQube analysis** to required GitHub branch checks. |
 
 ## Operating Rules
